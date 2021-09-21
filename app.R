@@ -1,4 +1,4 @@
-########### EY FORECASTING APP #################
+########### FORECASTER APP #################
 
 # LIBRARIES ----
 source(file = "00_scripts/libraries.R")
@@ -37,13 +37,8 @@ options(shiny.maxRequestSize=30*1024^2)
 ## 1. Header ----
 header <- dashboardHeader(
     title = div(
-        span(img(src    = "EY_Logo_Beam_RGB_White_Yellow.png",
-                 width  = "12%",
-                 height = "12%",
-                 style = "vertical-align: top; margin-top: 2px;"
-             )),
-        span(tags$b("FORECASTING TOOL"),
-                    style = "font-size: 21px; font-family: EYInterstate, sans-serif; padding-bottom: 50px"
+        span(tags$b("FORECASTER"),
+                    style = "font-size: 21px; font-family: Arial, sans-serif; padding-bottom: 50px"
         )
     ),
     titleWidth = 300
@@ -286,14 +281,9 @@ body <- dashboardBody(
                         fluidRow(
                             column(
                                 width = 12,
-                                tags$h1(tags$img(src    = "EY_Logo_Beam_RGB-OffBlack-Yellow.png",
-                                                 width  = "5%",
-                                                 height = "5%",
-                                                 style  = "vertical-align: bottom; padding-bottom: 7px"),
-                                         tags$b("FORECASTING TOOL")
-                                ),
+                                tags$h1(tags$b("FORECASTER")),
                                 br(),
-                                p(HTML("The EY Forecasting Tool is an interactive user interface to explore, visualize and forecast time series data with a wide range of models at your disposal.")),
+                                p(HTML("The FORECASTER Tool is an interactive user interface to explore, visualize and forecast time series data with a wide range of models at your disposal.")),
                                 p(HTML("This application is designed with the idea that the user will navigate through it with the help of the side menu. The only requisite for the good functioning of its forecasting abbilities is to load the data and then select the preferred forecasting framework.")),
                                 br(),
                                 tags$h3(tags$b("LOAD DATA:")),
@@ -1270,8 +1260,7 @@ body <- dashboardBody(
 
 ## 5. Footer ----
 footer <-  dashboardFooter(
-    left = div(img(src="ey-wavespace-logo-png-transparent-png_small.png")
-           ),
+    left = "PABLO CHAURE CORDERO",
     right = "2021"
 )
 
