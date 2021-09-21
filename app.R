@@ -111,6 +111,10 @@ body <- dashboardBody(
         skin = c("Flat"),
         color = "#ffe600"
     ),
+    
+    shinyDashboardThemes(
+        theme = "poor_mans_flatly"
+    ),
 
     # * CSS ----
     tags$head(tags$style(HTML('/* logo */

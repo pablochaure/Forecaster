@@ -45,6 +45,7 @@ libraries <-
       if (!require("shinycssloaders")) install.packages("shinycssloaders"); library(shinycssloaders)
       if (!require("shinydashboard")) install.packages("shinydashboard"); library(shinydashboard)
       if (!require("shinydashboardPlus")) install.packages("shinydashboardPlus"); library(shinydashboardPlus)
+      if (!require("dashboardthemes")) install.packages("dashboardthemes"); library(dashboardthemes)
       if (!require("shinyEffects")) install.packages("shinyEffects"); library(shinyEffects)
       if (!require("shinyWidgets")) install.packages("shinyWidgets"); library(shinyWidgets)
       if (!require("shinyalert")) install.packages("shinyalert"); library(shinyalert)
