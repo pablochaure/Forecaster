@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'EYInterstate';
+  font-style: normal;
+  src: url('EYInterstate-Regular.ttf');
+}
+
+h1 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+h2 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+h3 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+h4 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+h5 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+h6 {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+p {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+}
+
+body {
+  font-family: EYInterstate, sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
