@@ -4,31 +4,38 @@
 h1 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
+  font-size: -webkit-xxx-large;
 }
 
 h2 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h3 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h4 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h5 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h6 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 p {
@@ -43,3 +50,6 @@ body {
   overflow-y: auto;
 }
 
+a {
+  color: rgb(28, 103, 97);
+}
