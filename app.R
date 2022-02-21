@@ -1,4 +1,4 @@
-########### EY FORECASTING APP #################
+########### FORECASTER APP #################
 
 # LIBRARIES ----
 source(file = "00_scripts/libraries.R")
@@ -37,13 +37,8 @@ options(shiny.maxRequestSize=30*1024^2)
 ## 1. Header ----
 header <- dashboardHeader(
     title = div(
-        span(img(src    = "EY_Logo_Beam_RGB_White_Yellow.png",
-                 width  = "12%",
-                 height = "12%",
-                 style = "vertical-align: top; margin-top: 2px;"
-             )),
-        span(tags$b("FORECASTING TOOL"),
-                    style = "font-size: 21px; font-family: EYInterstate, sans-serif; padding-bottom: 50px"
+        span(tags$b("FORECASTER"),
+                    style = "font-size: 21px; font-family: Arial, sans-serif; padding-bottom: 50px"
         )
     ),
     titleWidth = 300
@@ -116,160 +111,72 @@ body <- dashboardBody(
         skin = c("Flat"),
         color = "#ffe600"
     ),
+    
+    shinyDashboardThemes(
+        theme = "poor_mans_flatly"
+    ),
 
     # * CSS ----
-    tags$head(tags$style(HTML('/* logo */
-                               .skin-blue .main-header .logo {background-color: #333333;}
-                                
-                               /* body */ 
-                               .content-wrapper, .right-side {background-color: #f0f0f0;}
+    tags$head(
+        tags$style(
+            HTML(
+                '/* logo superior izquierda */
+                .skin-blue .main-header .logo {
+                    background: rgb(16, 119, 111);
+                }
+                
+                .skin-blue .main-header .navbar {
+                    background: rgb(16, 119, 111);
+                }
+                
+                .skin-blue .main-header .navbar .sidebar-toggle {
+                    background: rgb(16, 119, 111);
+                    color: #ffffff;
+                }
+                
+                /* main sidebar */
+                .skin-blue .main-sidebar {
+                    background-color: #333333;
+                }
 
-                               /* navbar (rest of the header) */
-                               .skin-blue .main-header .navbar {background-color: #333333;}
-
-                               /* main sidebar */
-                               .skin-blue .main-sidebar {background-color: #333333;}
-                              
-                               .box.box-solid.box-primary>.box-header {background: #333333}
-
-                               .box.box-solid.box-primary{background: #ffffff}
-                              
-                               div.box {
-                                        text-align: left;
-                                        border-style: solid;
-                                        border-bottom-color: #ffffff;
-                                        border-left-color:  #ffffff;
-                                        border-right-color:#ffffff;
-                                        border-top-color: #ffffff;
-                                        border-bottom-width:5px;
-                                        border-top-width:5px;
-                                        border-left-width:5px;
-                                        border-right-width:5px;
-                               }
-                               
-                              .skin-blue .sidebar-menu>li.active>a {
-                                border-left-color: #ffe600;}
-                                
-                              .skin-blue .sidebar-menu .treeview-menu>li>a {
-                                color: #b0ac8b;}
-                              
-                              .skin-blue .sidebar-menu .treeview-menu>li.active>a, .skin-blue .sidebar-menu .treeview-menu>li>a:hover {
-                                color: #ffe600;
-                              }
-                              
-                              .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li.menu-open>a, .skin-blue .sidebar-menu>li:hover>a {
-                                color: #ffe600;
-                                background: #1e282c;
-                              }
-                                
-                                
-                              .navbar {
-                                height: 60px;
-                                min-height:25px !important;
-                              }
-                                
-                              .navbar-nav > li > a, .navbar-brand {
-                                padding-top:5px !important; 
-                                padding-bottom:5px !important;
-                                height: 25px;
-                              }
-                              
-                              /* Switch */
-                              .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success,
-                              .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success {
-                                background: #ffe600;
-                                color: #2e2e38;
-                              }
-                              
-                              /* Download handlers */
-                              .download_button{
-                                background-color: #ffe600;
-                              }
-                              
-                              /* AppButton */
-                              .btn-default .badge{
-                                background-color:#ffe600!important;
-                                color:#2e2e38!important;
-                              }
-                              .btn-app{
-                                border: 1px solid #ffe600;
-                              }
-                              
-                              /** Active tabs **/
-                              /* Tabs */
-                              .nav-tabs-custom>.nav-tabs>li.active {
-                                border-top-color: #ffe600;
-                              }
-                              
-                              a {
-                                color: #2e2e38;
-                              }
-                              
-                              .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-                                color: #ffd900;
-                                cursor: default;
-                                background-color: #fff;
-                                border: 1px solid #ffd900;
-                                border-bottom-color: transparent;
-                              }
-                              
-                              .pretty input:checked~.state.p-warning .icon,
-                              .pretty input:checked~.state.p-warning .svg,
-                              .pretty.p-toggle .state.p-warning .icon, .pretty.p-toggle .state.p-warning .svg {
-                                background-color: #ffe600;
-                              }
-                              
-                              /* width log_trans label */
-                              .logtrans_label {
-                                width: 181px;
-                              }
-                              
-                              /* width log_trans label */
-                              .smoother_label{
-                                padding-left: 120px;
-                              }
-                                
-                              /* sliders */
-                              .irs--flat .irs-from, .irs--flat .irs-to, .irs--flat .irs-single {
-                                color: black;
-                                font-size: 11px;
-                                background-color: #ffe600;
-                              }
-                              .irs-bar-edge, .irs-bar, .irs-single:after, .irs-from:after, .irs-to:after, .irs-slider {
-                              filter: hue-rotate(-299.566563467492deg) saturate(64.1350210970464%) brightness(159.693626%);
-                              }
-                              
-                              /* Progress bar */
-                              .progress-bar{
-                                background-color: #ffe600;
-                              }
-                              .shiny-notification{
-                                border: 3px solid #ffe600;
-                                border-radius: 9px;
-                              }
-                              
-                              /* VerbatimTextOutput */
-                              code, kbd, pre, samp {
-                                font-family: EYInterstate, sans-serif;
-                                font-weight: 400;
-                              }
-                              
-                              .seasonality_plot_titles{
-                                margin-left: 60px;
-                                margin-bottom: 0px;
-                              }
-                              
-                              .box-header.with-border {
-                                border-bottom: 1px solid #ffe600;
-                              }
-                              
-                              /* External/documentation links */
-                              .ref_link{
-                                color: #e6bc00
-                              }'
-                          )
-             )
+                .skin-blue .main-header .navbar .sidebar-toggle:hover{
+                    background: rgb(16, 119, 111);
+                    color: rgb(0,0,0);
+                }
+                
+                .skin-blue .main-sidebar .sidebar .sidebar-menu .active > a,
+                .skin-blue .sidebar-menu > li.active > a{
+                    background: rgb(255,255,255) !important;
+                    color: rgb(16, 119, 111) !important;
+                    border-left: rgb(16, 119, 111);
+                    border-left-style: solid;
+                    border-left-width: 5px;
+                }
+                
+                .skin-blue .main-sidebar .sidebar .sidebar-menu a:hover,
+                .skin-blue .sidebar-menu > li:hover > a{
+                    background: rgb(16, 119, 111) !important;
+                    color:  rgb(255,255,255)!important;
+                    border-left: rgb(255,255,255);
+                    border-left-style: solid;
+                    border-left-width: 5px;
+                }
+                
+                /*WellPanel*/
+                .well{
+                    border: 0px solid #e3e3e3;
+                    -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.00);
+                }
+                
+                /*Título tabla summary*/
+                .rt-sort-header {
+                    color: rgb(16, 119, 111);
+                }
+                '
+            )
+        )
     ),
+
     
     includeCSS("www/style.css"),
     
@@ -286,14 +193,9 @@ body <- dashboardBody(
                         fluidRow(
                             column(
                                 width = 12,
-                                tags$h1(tags$img(src    = "EY_Logo_Beam_RGB-OffBlack-Yellow.png",
-                                                 width  = "5%",
-                                                 height = "5%",
-                                                 style  = "vertical-align: bottom; padding-bottom: 7px"),
-                                         tags$b("FORECASTING TOOL")
-                                ),
+                                tags$h1(tags$b("FORECASTER")),
                                 br(),
-                                p(HTML("The EY Forecasting Tool is an interactive user interface to explore, visualize and forecast time series data with a wide range of models at your disposal.")),
+                                p(HTML("The <b>FORECASTER</b> Tool is an interactive user interface to explore, visualize and forecast time series data with a wide range of models at your disposal.")),
                                 p(HTML("This application is designed with the idea that the user will navigate through it with the help of the side menu. The only requisite for the good functioning of its forecasting abbilities is to load the data and then select the preferred forecasting framework.")),
                                 br(),
                                 tags$h3(tags$b("LOAD DATA:")),
@@ -329,13 +231,13 @@ body <- dashboardBody(
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Includes input selectors for the corresponding parameters for each of the algorithms.<br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast visualization on the testing set. Including median values and 95% confidence intervals.<br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- An interactive table is displayed including the accuracy metrics for the forecast on the testing set to assess the fit of the model to the data. Read more about forecasting accuracy metrics"),
-                                  tags$a("here", href = "Forecast_KPIs.pdf", target="_blank", class = "accuracy_link"),
-                                  HTML(".<br/>&nbsp&nbsp&nbsp<b>2. Forecast plot:</b><br/>
+                                  tags$a("here.", href = "Forecast_KPIs.pdf", target="_blank", class = "accuracy_link"),
+                                  HTML("<br/>&nbsp&nbsp&nbsp<b>2. Forecast plot:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast visualization with the refitted model to the full dataset (train + test).<br/>
                                        &nbsp&nbsp&nbsp<b>3. Forecast table:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Interactive table with all the trained models' predictions and their correspondent confidence intervals (95%).<br/>
-                                       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows:"),
-                                  tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center;")
+                                       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows: <br/>"),
+                                  tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center; color: rgb(28, 103, 97);")
                                 ),
                                 style = "text-align:justify; font-size: 20px"
                             )
@@ -1270,8 +1172,7 @@ body <- dashboardBody(
 
 ## 5. Footer ----
 footer <-  dashboardFooter(
-    left = div(img(src="ey-wavespace-logo-png-transparent-png_small.png")
-           ),
+    left = "PABLO CHAURE CORDERO",
     right = "2021"
 )
 

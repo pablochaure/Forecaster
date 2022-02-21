@@ -1,48 +1,55 @@
-@font-face {
-  font-family: 'EYInterstate';
-  font-style: normal;
-  src: url('EYInterstate-Regular.ttf');
-}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 
 h1 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
+  font-size: -webkit-xxx-large;
 }
 
 h2 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h3 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h4 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h5 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 h6 {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
+  color: rgb(16, 119, 111);
 }
 
 p {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
 }
 
 body {
-  font-family: EYInterstate, sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
+a {
+  color: rgb(28, 103, 97);
+}
