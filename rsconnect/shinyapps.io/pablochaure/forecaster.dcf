@@ -1,0 +1,11 @@
+name: forecaster
+title:
+username:
+account: pablochaure
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5719439
+bundleId: 5610884
+url: https://pablochaure.shinyapps.io/forecaster/
+when: 1645642286.89412
+lastSyncTime: 1645642286.89412

@@ -25,12 +25,8 @@ source(file = "00_scripts/f_deepar_forecast.R")
 source(file = "00_scripts/f_nbeats_forecast.R")
 source(file = "00_scripts/f_DL_models.R")
 
-# # PYTHON FUNCTIONS ----
-# reticulate::source_python(file = "00_Python_code/DLTSForecast.py")
-
 # Shiny settings ----
 options(shiny.maxRequestSize=30*1024^2) 
-
 
 # UI ELEMENTS ----
 
@@ -38,7 +34,7 @@ options(shiny.maxRequestSize=30*1024^2)
 header <- dashboardHeader(
     title = div(
         span(tags$b("FORECASTER"),
-                    style = "font-size: 21px; font-family: Arial, sans-serif; padding-bottom: 50px"
+             style = "font-size: 21px; font-family: Montserrat, sans-serif; padding-bottom: 50px"
         )
     ),
     titleWidth = 300
@@ -64,32 +60,38 @@ sidebar <- dashboardSidebar(width = 300,
         
         menuItem(text     = tags$b("ARIMA forecast"),
                  tabName  = "arima",
-                 icon     = icon("chart-line"),
+                 icon     = fontawesome::fa("heart-rate"),
                  menuSubItem(text    = "Description",
-                             tabName = "arima_readme"
+                             tabName = "arima_readme",
+                             icon     = icon("readme")
                  ),
                  menuSubItem(text    = "Forecasting model",
-                             tabName = "arima_model"
+                             tabName = "arima_model",
+                             icon     = icon("chart-line")
                  )
         ),
         menuItem(text     = tags$b("ML forecast"),
                  tabName  = "ml",
                  icon     = icon("user-cog"),
                  menuSubItem(text    = "Description",
-                             tabName = "ml_readme"
+                             tabName = "ml_readme",
+                             icon     = icon("readme")
                  ),
                  menuSubItem(text    = "Forecasting model",
-                             tabName = "ml_model"
+                             tabName = "ml_model",
+                             icon     = icon("chart-line")
                  )
         ),
         menuItem(text     = tags$b("DL forecast"),
                  tabName  = "dl",
                  icon     = icon("brain"),
                  menuSubItem(text    = "Description",
-                             tabName = "dl_readme"
+                             tabName = "dl_readme",
+                             icon     = icon("readme")
                  ),
                  menuSubItem(text    = "Forecasting model",
-                             tabName = "dl_model"
+                             tabName = "dl_model",
+                             icon     = icon("chart-line")
                  )
         )
     )
@@ -121,22 +123,27 @@ body <- dashboardBody(
         tags$style(
             HTML(
                 '/* logo superior izquierda */
-                .skin-blue .main-header .logo {
+                
+                .skin-blue .main-header .navbar,
+                .skin-blue .main-header .logo,
+                .skin-blue .main-header .logo:hover{
                     background: rgb(16, 119, 111);
                 }
                 
-                .skin-blue .main-header .navbar {
-                    background: rgb(16, 119, 111);
-                }
-                
-                .skin-blue .main-header .navbar .sidebar-toggle {
+                .skin-blue .main-header .navbar .sidebar-toggle,
+                .main-footer{
                     background: rgb(16, 119, 111);
                     color: #ffffff;
                 }
                 
+                .sidebar-mini.sidebar-collapse .main-header .logo {
+                    width: 50px;
+                    color: rgb(16, 119, 111);
+                }
+                
                 /* main sidebar */
                 .skin-blue .main-sidebar {
-                    background-color: #333333;
+                    background-color: #707070;
                 }
 
                 .skin-blue .main-header .navbar .sidebar-toggle:hover{
@@ -172,6 +179,16 @@ body <- dashboardBody(
                 .rt-sort-header {
                     color: rgb(16, 119, 111);
                 }
+                
+                hr{
+                    border-top: 1px solid rgb(16, 119, 111);
+                }
+                
+                /*Footer*/
+                .btn-linkedin {
+                    color: #ffffff;
+                    background-color: rgb(16, 119, 111);
+                    border-color: rgb(16, 119, 111);}
                 '
             )
         )
@@ -195,9 +212,9 @@ body <- dashboardBody(
                                 width = 12,
                                 tags$h1(tags$b("FORECASTER")),
                                 br(),
-                                p(HTML("The <b>FORECASTER</b> Tool is an interactive user interface to explore, visualize and forecast time series data with a wide range of models at your disposal.")),
+                                p(HTML("<b>FORECASTER</b> is an interactive tool for exploring, visualizing and forecasting time series data with a wide range of models to experiment with.")),
                                 p(HTML("This application is designed with the idea that the user will navigate through it with the help of the side menu. The only requisite for the good functioning of its forecasting abbilities is to load the data and then select the preferred forecasting framework.")),
-                                br(),
+                                hr(),
                                 tags$h3(tags$b("LOAD DATA:")),
                                 p(HTML("The user can upload a CSV file with one or multiple (grouped) time series data. The minimum requirements for the file to be correctly accepted by the application are:<br/>
                                        &nbsp&nbsp&nbsp- Must be a .csv file.<br/>
@@ -206,38 +223,39 @@ body <- dashboardBody(
                                        &nbsp&nbsp- For hierarchical or groupped time series forecasting, there must be an id column contained in the dataset to identify the different time series.<br/>
                                        The date, value and, optionally, the id variables must be selected by the user prior to continuing to the modelling stage.<br/>
                                        Variable formats are shown for the user to see what they have inputted as well as the frequency of the date variable.")),
-                                br(),
+                                hr(),
                                 tags$h3(tags$b("EXPLORE DATA:")),
                                 p(HTML("The tool provides many descriptive and interactive visualizations for exploring the uploaded data. The included features are:<br/>
                                        &nbsp&nbsp&nbsp- Data table to inspect the inputted values.<br/>
                                        &nbsp&nbsp&nbsp- Summary of the date variable, including: start/end dates, frequency and units of the data.<br/>
                                        &nbsp&nbsp&nbsp- Time series plot.<br/>
                                        &nbsp&nbsp&nbsp- ACF and PACF plots.<br/>
-                                       &nbsp&nbsp&nbsp- Time series breakdown: seasonality, trend and errors plots.<br/>
+                                       &nbsp&nbsp&nbsp- Time series breakdown: seasonality, trend and error plots.<br/>
                                        &nbsp&nbsp&nbsp- Seasonality plots dependent on the frequency of the time series.<br/>
                                        &nbsp&nbsp&nbsp- Anomaly detection plot.<br/>
                                        <b>Beware</b> that the time series breakdown and anomaly detection plots are not available for time series with missing values.")),
-                                br(),
+                                hr(),
                                 tags$h3(tags$b("FORECASTING MODELS:")),
                                 p(HTML("The interface allows the user to compare different fitted time series models and their forecasts with the following algorithms:<br/>
                                        &nbsp&nbsp&nbsp- ARIMA: autoARIMA, ARIMABoost (with xgboost) and manual ARIMA.<br/>
                                        &nbsp&nbsp&nbsp- ML modelling: Prophet, ProphetBoost, xgboost, Random Forest.<br/>
                                        &nbsp&nbsp&nbsp- ML ensemble of the previously trained ML models.<br/>
-                                       &nbsp&nbsp&nbsp- AutoML, powered by H2O.ai.<br/>
-                                       &nbsp&nbsp&nbsp- Deep Learning: DeepAR and NBeats Ensemble.<br/>")),
+                                       &nbsp&nbsp&nbsp- AutoML, powered by"),
+                                  a("H2O.ai", href = "http://h20.ai/", target = "_blank", class = "ref_link"),
+                                  HTML(".<br/>&nbsp&nbsp&nbsp- Deep Learning: DeepAR and NBeats Ensemble.<br/>")),
                                 p(HTML("To each model, the user must provide a horizon for the future predictions. This amount will correspond to a number of periods in the same frequecny as the date variable. This horizon period will also be used to split the data between the training and test set.<br/>")),
                                 p(HTML("Each of the forecasting model menu items is subdivided into three tabs:<br/>
                                        &nbsp&nbsp&nbsp<b>1. Model training:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Includes input selectors for the corresponding parameters for each of the algorithms.<br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast visualization on the testing set. Including median values and 95% confidence intervals.<br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- An interactive table is displayed including the accuracy metrics for the forecast on the testing set to assess the fit of the model to the data. Read more about forecasting accuracy metrics"),
-                                  tags$a("here.", href = "Forecast_KPIs.pdf", target="_blank", class = "accuracy_link"),
+                                  tags$a("here.", href = "Forecast_KPIs.pdf", target="_blank", class = "ref_link"),
                                   HTML("<br/>&nbsp&nbsp&nbsp<b>2. Forecast plot:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast visualization with the refitted model to the full dataset (train + test).<br/>
                                        &nbsp&nbsp&nbsp<b>3. Forecast table:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Interactive table with all the trained models' predictions and their correspondent confidence intervals (95%).<br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows: <br/>"),
-                                  tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center; color: rgb(28, 103, 97);")
+                                  tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center; color: rgb(16, 119, 111); font-weight: bold;")
                                 ),
                                 style = "text-align:justify; font-size: 20px"
                             )
@@ -641,10 +659,11 @@ body <- dashboardBody(
                                                     fluidRow(
                                                         reactableOutput(outputId = "arima_table_accuracy")
                                                     ),
-                                                    tags$h5("Read more about forecasting accuracy metrics", a("here",
-                                                                                                              href   = "Forecast_KPIs.pdf",
-                                                                                                              target = "_blank",
-                                                                                                              class  = "ref_link")
+                                                    tags$h5("Read more about forecasting accuracy metrics",
+                                                            a("here",
+                                                              href   = "Forecast_KPIs.pdf",
+                                                              target = "_blank",
+                                                              class  = "ref_link")
                                                     )
                                                 )
                                             )
@@ -1172,7 +1191,13 @@ body <- dashboardBody(
 
 ## 5. Footer ----
 footer <-  dashboardFooter(
-    left = "PABLO CHAURE CORDERO",
+    left = div(
+        list(
+            HTML("PABLO CHAURE CORDERO"),
+            socialButton(href = "https://www.linkedin.com/in/pablochaure/",
+                         icon = icon("linkedin"))
+        )
+    ),
     right = "2021"
 )
 

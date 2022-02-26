@@ -25,7 +25,6 @@ libraries <-
       if (!require("lubridate")) install.packages("lubridate"); library(lubridate)
       if (!require("imputeTS")) install.packages("imputeTS"); library(imputeTS)
       
-      
       # Modelling
       if (!require("tidymodels")) install.packages("tidymodels"); library(tidymodels)
       if (!require("modeltime")) install.packages("modeltime"); library(modeltime)
@@ -33,7 +32,7 @@ libraries <-
       if (!require("modeltime.resample")) install.packages("modeltime.resample"); library(modeltime.resample)
       if (!require("modeltime.gluonts")) remotes::install_github("business-science/modeltime.gluonts"); library(modeltime.gluonts)
       if (!require("modeltime.h2o")) install.packages("modeltime.h2o"); library(modeltime.h2o)
-      if (!require("neuralprophet")) remotes::install_github("AlbertoAlmuinha/neuralprophet"); library(neuralprophet)
+      if (!require("ranger")) install.packages("ranger"); library(ranger)
       
       # Plots
       if (!require("reactable")) install.packages("reactable"); library(reactable)

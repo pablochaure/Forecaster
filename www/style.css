@@ -53,3 +53,9 @@ body {
 a {
   color: rgb(28, 103, 97);
 }
+
+/*Links*/
+.ref_link{
+  color: rgb(16, 119, 111);
+  font-weight: bold;
+}
