@@ -60,14 +60,14 @@ sidebar <- dashboardSidebar(width = 300,
         
         menuItem(text     = tags$b("ARIMA forecast"),
                  tabName  = "arima",
-                 icon     = fontawesome::fa("heart-rate"),
+                 icon     = icon("chart-line"),
                  menuSubItem(text    = "Description",
                              tabName = "arima_readme",
                              icon     = icon("readme")
                  ),
                  menuSubItem(text    = "Forecasting model",
                              tabName = "arima_model",
-                             icon     = icon("chart-line")
+                             icon     = icon("forward")
                  )
         ),
         menuItem(text     = tags$b("ML forecast"),
@@ -79,7 +79,7 @@ sidebar <- dashboardSidebar(width = 300,
                  ),
                  menuSubItem(text    = "Forecasting model",
                              tabName = "ml_model",
-                             icon     = icon("chart-line")
+                             icon     = icon("forward")
                  )
         ),
         menuItem(text     = tags$b("DL forecast"),
@@ -91,7 +91,7 @@ sidebar <- dashboardSidebar(width = 300,
                  ),
                  menuSubItem(text    = "Forecasting model",
                              tabName = "dl_model",
-                             icon     = icon("chart-line")
+                             icon     = icon("forward")
                  )
         )
     )
@@ -219,7 +219,7 @@ body <- dashboardBody(
                                 p(HTML("The user can upload a CSV file with one or multiple (grouped) time series data. The minimum requirements for the file to be correctly accepted by the application are:<br/>
                                        &nbsp&nbsp&nbsp- Must be a .csv file.<br/>
                                        &nbsp&nbsp&nbsp- The only accepted separators between values are: , and ;<br/>
-                                       &nbsp&nbsp&nbsp- Must contain at least two variables: a date feature, with an appropriate date format, and the value to be forecasted by the models.<br/>
+                                       &nbsp&nbsp- Must contain at least two variables: a date feature, with an appropriate date format, and the value to be forecasted by the models.<br/>
                                        &nbsp&nbsp- For hierarchical or groupped time series forecasting, there must be an id column contained in the dataset to identify the different time series.<br/>
                                        The date, value and, optionally, the id variables must be selected by the user prior to continuing to the modelling stage.<br/>
                                        Variable formats are shown for the user to see what they have inputted as well as the frequency of the date variable.")),
@@ -254,7 +254,7 @@ body <- dashboardBody(
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast visualization with the refitted model to the full dataset (train + test).<br/>
                                        &nbsp&nbsp&nbsp<b>3. Forecast table:</b><br/>
                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Interactive table with all the trained models' predictions and their correspondent confidence intervals (95%).<br/>
-                                       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows: <br/>"),
+                                       &nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows: <br/>"),
                                   tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center; color: rgb(16, 119, 111); font-weight: bold;")
                                 ),
                                 style = "text-align:justify; font-size: 20px"
