@@ -20,6 +20,10 @@ h3 {
   color: rgb(16, 119, 111);
 }
 
+h3.seasonality_plot_titles {
+  font-weight: bold;
+}
+
 h4 {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
