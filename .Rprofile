@@ -1,8 +1,8 @@
 # This file configures the virtualenv and Python paths differently depending on
 # the environment the app is running in (local vs remote server).
 
-VIRTUALENV_NAME = 'forecaster_app'
-
+# Edit this name if desired when starting a new app
+VIRTUALENV_NAME = 'forecast_app'
 
 # ------------------------- Settings (Edit local settings to match your system) -------------------------- #
 
@@ -24,7 +24,7 @@ if (Sys.info()[['user']] == 'shiny'){
   
   # Running locally
   options(shiny.port = 7450)
-  Sys.setenv(PYTHON_PATH = 'python3')
+  Sys.setenv(PYTHON_PATH = 'C:\\Users\\RA135GG\\Anaconda3\\python.exe')
   Sys.setenv(VIRTUALENV_NAME = VIRTUALENV_NAME) # exclude '/' => installs into ~/.virtualenvs/
   # RETICULATE_PYTHON is not required locally, RStudio infers it based on the ~/.virtualenvs path
 }

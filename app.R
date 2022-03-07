@@ -25,6 +25,19 @@ source(file = "00_scripts/f_deepar_forecast.R")
 source(file = "00_scripts/f_nbeats_forecast.R")
 source(file = "00_scripts/f_DL_models.R")
 
+PYTHON_DEPENDENCIES <-  c(
+    "pip",
+    "mxnet~=1.7",
+    "gluonts==0.8.0",
+    "numpy",
+    "pandas==1.0.5",
+    "pathlib==1.0.1",
+    "ujson==4.0.2",
+    "brotlipy"
+)
+
+python_version <- "3.7.1"
+
 # Shiny settings ----
 options(shiny.maxRequestSize=30*1024^2) 
 
@@ -1451,7 +1464,38 @@ footer <-  dashboardFooter(
 ui <- dashboardPage(header, sidebar, body, controlbar, footer)
 
 # SERVER ----
-server <- function(session, input, output) { 
+server <- function(session, input, output) {
+    
+    # App virtualenv setup (Do not edit) ----
+    virtualenv_dir = Sys.getenv('VIRTUALENV_NAME')
+    python_path = Sys.getenv('PYTHON_PATH')
+    
+    # reticulate::py_install(
+    #     packages       = default_pkgs,
+    #     envname        = "r-gluonts",
+    #     method         = "conda",
+    #     conda          = "auto",
+    #     python_version = python_version,
+    #     pip            = TRUE
+    # )
+    
+    # # Create virtual env and install dependencies
+    # reticulate::install_python(version = python_version)
+    # reticulate::virtualenv_create(envname = virtualenv_dir,
+    #                               python  = python_path,
+    #                               version = python_version)
+    # reticulate::virtualenv_install(virtualenv_dir,
+    #                                packages         = PYTHON_DEPENDENCIES,
+    #                                ignore_installed = TRUE)
+    # reticulate::use_virtualenv(virtualenv_dir,
+    #                            required = TRUE)
+    # 
+    
+    reticulate::conda_create(envname = virtualenv_dir,
+                             packages = PYTHON_DEPENDENCIES,conda = "auto", forge = TRUE,
+                             python_version = python_version)
+    reticulate::use_condaenv(condaenv = virtualenv_dir,
+                             required = TRUE)
     #____________________________________----
     #4.2 app_load TAB ----
     
