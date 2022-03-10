@@ -8,7 +8,7 @@ libraries <-
       if (!require("DataExplorer")) install.packages("DataExplorer"); library(DataExplorer)
       if (!require("berryFunctions")) install.packages("berryFunctions"); library(berryFunctions)
       if (!require("tools")) install.packages("tools"); library(tools)
-      if (!require("reticulate")) install.packages("reticulate"); library(reticulate)
+      # if (!require("reticulate")) install.packages("reticulate"); library(reticulate)
       if (!require("bit64")) install.packages("bit64"); library(bit64)
       
       # Data

@@ -2,7 +2,7 @@
 # the environment the app is running in (local vs remote server).
 
 # Edit this name if desired when starting a new app
-VIRTUALENV_NAME = 'forecast_app'
+VIRTUALENV_NAME = 'forecaster'
 
 # ------------------------- Settings (Edit local settings to match your system) -------------------------- #
 
@@ -10,13 +10,13 @@ if (Sys.info()[['user']] == 'shiny'){
   
   # Running on shinyapps.io
   Sys.setenv(PYTHON_PATH = 'python3')
-  Sys.setenv(VIRTUALENV_NAME = VIRTUALENV_NAME) # Installs into default shiny virtualenvs dir
-  Sys.setenv(RETICULATE_PYTHON = paste0('/home/shiny/.virtualenvs/', VIRTUALENV_NAME, '/bin/python'))
+  Sys.setenv(VIRTUALENV_NAME = VIRTUALENV_NAME)
+  Sys.setenv(RETICULATE_PYTHON = '/home/shiny/.virtualenvs/forecaster/bin/python')
   
 } else if (Sys.info()[['user']] == 'rstudio-connect'){
   
   # Running on remote server
-  Sys.setenv(PYTHON_PATH = '/opt/python/3.7.7/bin/python3')
+  Sys.setenv(PYTHON_PATH = '/opt/python/3.7.1/bin/python3')
   Sys.setenv(VIRTUALENV_NAME = paste0(VIRTUALENV_NAME, '/')) # include '/' => installs into rstudio-connect/apps/
   Sys.setenv(RETICULATE_PYTHON = paste0(VIRTUALENV_NAME, '/bin/python'))
   
@@ -24,7 +24,7 @@ if (Sys.info()[['user']] == 'shiny'){
   
   # Running locally
   options(shiny.port = 7450)
-  Sys.setenv(PYTHON_PATH = 'C:\\Users\\RA135GG\\Anaconda3\\python.exe')
+  Sys.setenv(PYTHON_PATH = 'C:\\Users\\RA135GG\\AppData\\Local\\r-miniconda\\envs\\forecaster\\pyhton.exe')
   Sys.setenv(VIRTUALENV_NAME = VIRTUALENV_NAME) # exclude '/' => installs into ~/.virtualenvs/
   # RETICULATE_PYTHON is not required locally, RStudio infers it based on the ~/.virtualenvs path
 }

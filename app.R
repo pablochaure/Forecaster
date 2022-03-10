@@ -4,6 +4,9 @@
 source(file = "00_scripts/libraries.R")
 libraries()
 
+# ENVIRONMENT ARIABLES ----
+source(file = ".Rprofile")
+
 # FUNCTIONS ----
 source(file = "00_scripts/f_frequency_data.R")
 source(file = "00_scripts/f_sliderInput2.R")
@@ -1467,35 +1470,45 @@ ui <- dashboardPage(header, sidebar, body, controlbar, footer)
 server <- function(session, input, output) {
     
     # App virtualenv setup (Do not edit) ----
-    virtualenv_dir = Sys.getenv('VIRTUALENV_NAME')
-    python_path = Sys.getenv('PYTHON_PATH')
-    
+    # virtualenv_dir = Sys.getenv('VIRTUALENV_NAME')
+    # print("hola1")
+    # python_path = Sys.getenv('PYTHON_PATH')
+    # print("hola2")
+    # reticulate::install_miniconda()
     # reticulate::py_install(
-    #     packages       = default_pkgs,
-    #     envname        = "r-gluonts",
+    #     envname        = virtualenv_dir,
+    #     python_version = python_version,
+    #     packages       = PYTHON_DEPENDENCIES,
     #     method         = "conda",
     #     conda          = "auto",
-    #     python_version = python_version,
     #     pip            = TRUE
     # )
+    # reticulate::use_python(python   = virtualenv_dir,
+    #                        required = TRUE)
     
-    # # Create virtual env and install dependencies
-    # reticulate::install_python(version = python_version)
+    
+    
+    # Create virtual env and install dependencies
+    # reticulate::install_python(version = python_version,force = TRUE)
     # reticulate::virtualenv_create(envname = virtualenv_dir,
-    #                               python  = python_path,
-    #                               version = python_version)
+    #                               python  = python_path)
+    #                               # version = python_version)
+    # print("hola3")
     # reticulate::virtualenv_install(virtualenv_dir,
     #                                packages         = PYTHON_DEPENDENCIES,
     #                                ignore_installed = TRUE)
+    # print("hola4")
     # reticulate::use_virtualenv(virtualenv_dir,
     #                            required = TRUE)
-    # 
-    
-    reticulate::conda_create(envname = virtualenv_dir,
-                             packages = PYTHON_DEPENDENCIES,conda = "auto", forge = TRUE,
-                             python_version = python_version)
-    reticulate::use_condaenv(condaenv = virtualenv_dir,
-                             required = TRUE)
+
+    # reticulate::install_miniconda()
+    # reticulate::conda_create(envname        = virtualenv_dir,
+    #                          packages       = PYTHON_DEPENDENCIES,
+    #                          conda          = "auto",
+    #                          forge          = TRUE,
+    #                          python_version = python_version)
+    # reticulate::use_condaenv(condaenv = virtualenv_dir,
+    #                          required = TRUE)
     #____________________________________----
     #4.2 app_load TAB ----
     

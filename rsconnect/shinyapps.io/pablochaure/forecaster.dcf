@@ -1,11 +1,11 @@
-name: forecaster
-title:
+name: Forecaster
+title: Forecaster
 username:
 account: pablochaure
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 5719439
-bundleId: 5653339
-url: https://pablochaure.shinyapps.io/forecaster/
-when: 1646680870.99106
-lastSyncTime: 1646680870.99207
+appId: 5812877
+bundleId: 5667064
+url: https://pablochaure.shinyapps.io/Forecaster/
+when: 1646928954.98716
+lastSyncTime: 1646928954.98716
