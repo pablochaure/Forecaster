@@ -34,7 +34,7 @@ PYTHON_DEPENDENCIES <-  c(
     "gluonts==0.8.0",
     "numpy",
     "pandas==1.0.5",
-    "pathlib==1.0.1",
+    # "pathlib==1.0.1",
     "ujson==4.0.2",
     "brotlipy"
 )
@@ -43,7 +43,7 @@ python_version <- "3.7.1"
 
 # reticulate::install_miniconda()
 
-if (!Sys.info()[['user']] == 'RA135GG'){
+if (Sys.info()[['user']] == 'shiny'){
     # When running on shinyapps.io, create a virtualenv 
     envs<-reticulate::virtualenv_list()
     if(!'forecaster' %in% envs)
@@ -53,7 +53,10 @@ if (!Sys.info()[['user']] == 'RA135GG'){
                                       version = python_version)
 
         reticulate::virtualenv_install(envname  = 'forecaster', 
-                                       packages = PYTHON_DEPENDENCIES)
+                                       packages = PYTHON_DEPENDENCIES,
+                                       ignore_installed = TRUE)
+        reticulate::use_virtualenv(virtualenv = "forecaster",
+                                   required   = TRUE)
     }
 }
 
@@ -1486,10 +1489,10 @@ ui <- dashboardPage(header, sidebar, body, controlbar, footer)
 server <- function(session, input, output) {
     
     # App virtualenv setup (Do not edit) ----
-    virtualenv_dir = Sys.getenv('VIRTUALENV_NAME')
-    print("hola1")
-    python_path = Sys.getenv('PYTHON_PATH')
-    print("hola2")
+    # virtualenv_dir = Sys.getenv('VIRTUALENV_NAME')
+    # print("hola1")
+    # python_path = Sys.getenv('PYTHON_PATH')
+    # print("hola2")
     # reticulate::install_miniconda()
     # reticulate::py_install(
     #     envname        = virtualenv_dir,
@@ -1504,16 +1507,16 @@ server <- function(session, input, output) {
 
     # Create virtual env and install dependencies
     # reticulate::install_python(version = python_version,force = TRUE)
-    reticulate::virtualenv_create(envname = virtualenv_dir,
-                                  python  = python_path,
-                                  version = python_version)
-    print("hola3")
-    reticulate::virtualenv_install(virtualenv_dir,
-                                   packages         = PYTHON_DEPENDENCIES,
-                                   ignore_installed = TRUE)
-    print("hola4")
-    reticulate::use_virtualenv(virtualenv_dir,
-                               required = TRUE)
+    # reticulate::virtualenv_create(envname = virtualenv_dir,
+    #                               python  = python_path,
+    #                               version = python_version)
+    # print("hola3")
+    # reticulate::virtualenv_install(virtualenv_dir,
+    #                                packages         = PYTHON_DEPENDENCIES,
+    #                                ignore_installed = TRUE)
+    # print("hola4")
+    # reticulate::use_virtualenv(virtualenv_dir,
+    #                            required = TRUE)
 
     # reticulate::install_miniconda()
     # reticulate::conda_create(envname        = virtualenv_dir,
