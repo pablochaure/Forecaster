@@ -11,7 +11,9 @@ if (Sys.info()[['user']] == 'shiny'){
   # Running on shinyapps.io
   Sys.setenv(PYTHON_PATH = 'python3')
   Sys.setenv(VIRTUALENV_NAME = VIRTUALENV_NAME)
-  Sys.setenv(RETICULATE_PYTHON = '/home/shiny/.virtualenvs/forecaster/bin/python')
+  print(Sys.getenv("RETICULATE_PYTHON"))
+  Sys.setenv(RETICULATE_PYTHON = '/home/shiny/.virtualenvs/forecaster/bin/python3')
+  print(Sys.getenv("RETICULATE_PYTHON"))
   
 } else if (Sys.info()[['user']] == 'rstudio-connect'){
   
