@@ -41,6 +41,19 @@ PYTHON_DEPENDENCIES <-  c(
 
 python_version <- "3.7.1"
 
+if (!Sys.info()[['user']] == 'RA135GG'){
+    # When running on shinyapps.io, create a virtualenv 
+    envs<-reticulate::virtualenv_list()
+    if(!'forecaster' %in% envs)
+    {
+        reticulate::virtualenv_create(envname = 'forecaster', 
+                                      python  = 'python3',
+                                      version = python_version)
+        reticulate::virtualenv_install('forecaster', 
+                                       packages = PYTHON_DEPENDENCIES)
+    }
+}
+
 # Shiny settings ----
 options(shiny.maxRequestSize=30*1024^2) 
 
