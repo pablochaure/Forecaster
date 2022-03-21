@@ -26,11 +26,14 @@ libraries <-
       if (!require("imputeTS")) install.packages("imputeTS"); library(imputeTS)
       
       # Modelling
+      if (!require("smooth")) install.packages("smooth"); library(urca)
+      if (!require("urca")) install.packages("urca"); library(urca)
+      if (!require("forecast")) install.packages("forecast"); library(forecast)
       if (!require("tidymodels")) install.packages("tidymodels"); library(tidymodels)
       if (!require("modeltime")) install.packages("modeltime"); library(modeltime)
       if (!require("modeltime.ensemble")) install.packages("modeltime.ensemble"); library(modeltime.ensemble)
       if (!require("modeltime.resample")) install.packages("modeltime.resample"); library(modeltime.resample)
-      if (!require("modeltime.gluonts")) remotes::install_github("business-science/modeltime.gluonts"); library(modeltime.gluonts)
+      if (!require("modeltime.gluonts")) install.packages("modeltime.gluonts"); library(modeltime.gluonts)
       if (!require("modeltime.h2o")) install.packages("modeltime.h2o"); library(modeltime.h2o)
       if (!require("ranger")) install.packages("ranger"); library(ranger)
       

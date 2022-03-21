@@ -1,29 +1,37 @@
 ########### FORECASTER APP #################
 
 # LIBRARIES ----
-source(file = "00_scripts/libraries.R")
+source(file = "01_source/libraries.R")
 libraries()
 
 # FUNCTIONS ----
-source(file = "00_scripts/f_frequency_data.R")
-source(file = "00_scripts/f_sliderInput2.R")
-source(file = "00_scripts/f_read_data.R")
-source(file = "00_scripts/f_select_data.R")
-source(file = "00_scripts/f_count_rangeselector.R")
-source(file = "00_scripts/f_plot_acf.R")
-source(file = "00_scripts/f_manual_arima.R")
-source(file = "00_scripts/f_auto_arima.R")
-source(file = "00_scripts/f_prophet_forecast.R")
-source(file = "00_scripts/f_prophetboost_forecast.R")
-source(file = "00_scripts/f_randomforest_forecast.R")
-source(file = "00_scripts/f_xgboost_forecast.R")
-source(file = "00_scripts/f_ml_models.R")
-source(file = "00_scripts/f_get_loadings.R")
-source(file = "00_scripts/f_ensemble_calibration.R")
-source(file = "00_scripts/f_frequency_to_pandas.R")
-source(file = "00_scripts/f_deepar_forecast.R")
-source(file = "00_scripts/f_nbeats_forecast.R")
-source(file = "00_scripts/f_DL_models.R")
+source(file = "01_source/f_frequency_data.R")
+source(file = "01_source/f_sliderInput2.R")
+source(file = "01_source/f_read_data.R")
+source(file = "01_source/f_select_data.R")
+source(file = "01_source/f_count_rangeselector.R")
+source(file = "01_source/f_plot_acf.R")
+#ARIMA
+source(file = "01_source/f_manual_arima.R")
+source(file = "01_source/f_auto_arima.R")
+#ETS
+source(file = "01_source/f_ses_forecast.R")
+source(file = "01_source/f_holt_forecast.R")
+source(file = "01_source/f_holtwinters_forecast.R")
+source(file = "01_source/f_ets_models.R")
+#ML
+source(file = "01_source/f_prophet_forecast.R")
+source(file = "01_source/f_prophetboost_forecast.R")
+source(file = "01_source/f_randomforest_forecast.R")
+source(file = "01_source/f_xgboost_forecast.R")
+source(file = "01_source/f_ml_models.R")
+source(file = "01_source/f_get_loadings.R")
+source(file = "01_source/f_ensemble_calibration.R")
+#DL
+source(file = "01_source/f_frequency_to_pandas.R")
+source(file = "01_source/f_deepar_forecast.R")
+source(file = "01_source/f_nbeats_forecast.R")
+source(file = "01_source/f_DL_models.R")
 
 # Shiny settings ----
 options(shiny.maxRequestSize=30*1024^2) 
@@ -70,6 +78,18 @@ sidebar <- dashboardSidebar(width = 300,
                              icon     = icon("forward")
                  )
         ),
+        
+        menuItem(text     = tags$b("Exponential Smoothing Forecast"),
+                 tabName  = "ets",
+                 icon     = icon("area-chart"),
+                 menuSubItem(text    = "Description",
+                             tabName = "ets_readme"
+                 ),
+                 menuSubItem(text    = "Forecasting model",
+                             tabName = "ets_model"
+                 )
+        ),
+        
         menuItem(text     = tags$b("ML forecast"),
                  tabName  = "ml",
                  icon     = icon("user-cog"),
@@ -970,9 +990,204 @@ body <- dashboardBody(
                     )
                 )
         ),
-    
-        ### 4.5 ML----
-        ##### 4.5.1 ml_readme tab content ----
+        
+        ### 4.5 EXPONENTIAL SMOOTHING----
+        ##### 4.5.1 ets_readme tab content ----
+        tabItem(
+            tabName = "ets_readme",
+            class   = "container",
+            
+            fluidRow(
+                div(
+                    wellPanel(
+                        style = "background-color: white;",
+                        fluidRow(
+                            column(
+                                width = 12,
+                                tags$h2(tags$b("EXPONENTIAL TREND SMOOTHING MODELS")),
+                                p(),
+                                p(HTML("This application offers several Machine Learning algorithms and techniques available to the user for forecasting the uploaded time series with the high performance this predictive modelling can offer.")),
+                                p(),
+                                p(HTML("The different algorithms' functioning will not be detailed exhaustively due to the many intricacies each of them has. For the user to find out more, the documentation for each of the algorithms is available through the linked resource.<br/>
+                                       Algorithm parameter tuning has been left aside from the application scope and the results obtained herein may be of advisory nature with room for improvement.<br/>
+                                       When training the models, the date variable is decomposed into a collection of time-based external regressors that give an advanced predictive cappability to the algorithm in use.<br/>
+                                       This modelling section is divided into three tabs containing different frameworks in the Machine Learning domain.")),
+                                tags$h3(tags$b("1. Simple model:")),
+                                p(HTML("In the current version of the tool, four algorithms are available to be chosen by the user for their training:")),
+                                tags$h4(tags$b("- Prophet:")),
+                                p(HTML("This is an algorithm developed by Facebook for time series forecasting that is desgined to handle the common features of business time series data. It is a decomposable time series model with three main model components: trend, seasonality and holidays. They are combined in the following equation:"),
+                                  tags$p("y(t) =g(t) +s(t) +h(t) +ε", style = "text-align:center;"),
+                                  HTML("Here, g(t) is the trend function which models non-periodic changes in the value of the time series, s(t)  represents  periodic  changes  (e.g.,  weekly  and  yearly  seasonality) and h(t) represents the effects of holidays which occur on potentially irregular schedules over one or more days.  The error term ε represents any idiosyncratic changes which are not accommodated  by  the  model.<br/>
+                                       You may find the Prophet documentation"),
+                                  a("here", href = "https://facebook.github.io/prophet/", target = "_blank", class = "ref_link")
+                                ),
+                                tags$h4(tags$b("- XGBoost:")),
+                                p(HTML("XGBoost is short for e<b>X</b>treme <b>G</b>radient <b>Boost</b>ing package. It is an optimized distributed gradient boosting library that implements machine learning algorithms under the Gradient Boosting framework. XGBoost provides a parallel tree boosting (also known as GBDT, GBM) that solve many data science problems in a fast and accurate way.<br/>
+                                        You may find the XGBoost documentation"),
+                                  a("here", href = "https://xgboost.readthedocs.io/en/latest/index.html", target = "_blank", class = "ref_link")
+                                ),
+                                tags$h4(tags$b("- Prophet Boost:")),
+                                p(HTML("This is a special technique for increasing modelling accuracy of the Prophet algorithm. It combines an algorithm that performs really well on seasonal variation and external regressors, XGBoost, with Prophet for predicting the trend. With this technique, the issue of XGBoost incorrectly modeling trend is prevented by combining its power with the Prophet algorithm and leveraging XGBoost's ability to model residual errors.")),
+                                tags$h4(tags$b("- Random Forest:")),
+                                p(HTML("It is a tree-based algorithm that uses Bagging to combine many decision trees into a single prediction. Its strength is that it can model seasonality really well, but it is not able to predict beyond the max/min target value (e.g. increasing/decreasing trend). This Random Forest model is trained using the Ranger package, which is a fast implementation of random forests or recursive partitioning.<br/>
+                                        You may find the Ranger documentation"),
+                                  a("here", href = "https://www.jstatsoft.org/article/view/v077i01", target = "_blank", class = "ref_link")
+                                ),
+                                tags$h3(tags$b("2. Double/Holt model:")),
+                                p(HTML("With the previously selected and trained models, the user may harness the predictive power of these by combining their strengths into a single better model by using this modelling technique called ensembling. <br/>
+                                        Currently, three ensembling strategies are available:<br/>
+                                        &nbsp&nbsp<b>- Mean and median average ensemble:</b> this techniques take a simple average of the sub-models predictions, mean or median average. Therefore, all models in the ensemble will be awarded the same loading/weight. Beware that if there are extremely bad models in the input, the ensemble performance will be greatly affected because this model will pull the average.<br/>
+                                        &nbsp&nbsp<b>- Weighted average ensemble:</b> it works the same way as the average ensembles, but each model now gets a different loading. These loadings are based on a simple ranking of all the inputted models which are awarded a weight relative to their position in said ranking.")),
+                                p(HTML("Mean and median average are fast and good approaches, but weighted average ensembles can, potentially, perform much better as it gives more value to the best performing stand-alone model.<br/>
+                                        In the near future, stacked ensembles will be introduced to this section of the tool."
+                                )),
+                                tags$h3(tags$b("3. Holt Winters Model:")),
+                                p(HTML("This feature allows the user to train many Machine Learning models using"),
+                                  a("H2O.ai", href = "http://h20.ai/", target = "_blank", class = "ref_link"),
+                                  HTML("'s proprietary algorithm (H2O AutoML). Automatic Machine Learning is the process of automating algorithm selection, feature generation, hyperparameter tuning, iterative modeling, and model assessment. AutoML make it easy to train and evaluate machine learning models for the forecasting task at hand.<br/>
+                                        From the trained models in the specified time, the best performing ones are selected using a grid search for hyperparameter tuning. Furthermore, after all the models are trained, the algorithm creates two stacked ensemble models: one that combines all models and another with the best models of each algorithm family.<br/>
+                                        You may find the H2O  AutoML documentation"),
+                                  a("here", href = "http://docs.h2o.ai/h2o/latest-stable/h2o-docs/automl.html", target = "_blank", class = "ref_link")
+                                ),
+                                style = "text-align:justify; font-size: 20px"
+                            )
+                        )
+                    )
+                )
+            )
+        ),
+        
+        ##### 4.5.2 ets_model tab content ----
+        tabItem(tabName = "ets_model",
+                class = "fluid-container",
+                fluidRow(
+                    column(
+                        width =12,
+                        tabBox(width=NULL,
+                               title = "Exponential Smoothing Models Forecast",
+                               tabPanel(title = "1. Model Training",
+                                        sidebarLayout(
+                                            sidebarPanel(width = 4,
+                                                         style = "background:  #E4EAEA; border: 1px solid #A5CCC9; border-radius: 2px;",
+                                                         shinyWidgets::pickerInput(
+                                                             inputId  = "ets_model_selection",
+                                                             label    = "Select the models you wish to train:", 
+                                                             choices  = c("Simple", "Double/Holt","Holt-Winters"),
+                                                             options  = list('actions-box' = TRUE),
+                                                             multiple = TRUE
+                                                         ),
+                                                         
+                                                         uiOutput(
+                                                             outputId = "ets_double_inputs"
+                                                         ),
+                                                         
+                                                         uiOutput(
+                                                             outputId = "ets_holt_inputs"
+                                                         ),
+                                                         
+                                                         hr(),
+                                                         
+                                                         uiOutput(outputId = "ets_horizon"
+                                                         ),
+                                                         
+                                                         textOutput(
+                                                             outputId = "ets_horizon_recommended"),
+                                                         
+                                                         br(),
+                                                         # uiOutput("train_test"
+                                                         # ),
+                                                         #
+                                                         # shinyWidgets::progressBar(
+                                                         #     id          = "progress_train_test",
+                                                         #     value       = 80,
+                                                         #     display_pct = TRUE,
+                                                         #     status      = "warning",
+                                                         #     striped     = TRUE
+                                                         # )
+                                                         shinydashboardPlus::appButton(
+                                                             inputId = "run_ets",
+                                                             label   = "Run Forecast",
+                                                             class   = "pull-right",
+                                                             icon    = icon("play"),
+                                                             dashboardBadge("Let's Go!",
+                                                                            color = "yellow",
+                                                                            class = "appbuttonbadge")
+                                                         ),
+                                                         
+                                                         br(),br(),br()  
+                                            ),
+                                            
+                                            mainPanel(
+                                                wellPanel(
+                                                    style = "background: white",
+                                                    fluidRow(
+                                                        plotlyOutput(outputId = "ets_test_plot")
+                                                    ),
+                                                    fluidRow(
+                                                        reactableOutput(outputId = "ets_table_accuracy")
+                                                    ),
+                                                    tags$h5("Read more about forecasting accuracy metrics", a("here",
+                                                                                                              href   = "Forecast_KPIs.pdf",
+                                                                                                              target = "_blank",
+                                                                                                              class  = "ref_link")
+                                                    )
+                                                )
+                                            )
+                                        )
+                               ),
+                               tabPanel(title = "2. Forecast plot",
+                                        wellPanel(
+                                            style = "background: white",
+                                            fluidRow(
+                                                column(width = 3,
+                                                       shinyWidgets::switchInput(
+                                                           inputId    = "ets_forecast_plot_legend",
+                                                           label      = "Legend",
+                                                           onStatus   = "success",
+                                                           offStatus  = "danger",
+                                                           value      = TRUE,
+                                                           labelWidth = "80px",
+                                                           width      = "auto"
+                                                       )
+                                                ),
+                                                column(width = 3,
+                                                       shinyWidgets::switchInput(
+                                                           inputId    = "ets_forecast_plot_conf",
+                                                           label      = "Confidence",
+                                                           onStatus   = "success",
+                                                           offStatus  = "danger",
+                                                           value      = FALSE,
+                                                           labelWidth = "80px",
+                                                           width      = "auto"
+                                                       )
+                                                )
+                                            ),
+                                            fluidRow(
+                                                plotlyOutput(outputId = "ets_forecast_plot")
+                                            )
+                                        )
+                               ),
+                               tabPanel(title = "3. Forecast table",
+                                        wellPanel(
+                                            style = "background: white",
+                                            fluidRow(
+                                                reactableOutput(outputId = "ets_table_forecast")
+                                            ),
+                                            fluidRow(
+                                                downloadButton(outputId = "ets_download_forecast",
+                                                               label    = "Download ETS Forecasted Values (.csv)",
+                                                               class    = "download_button"
+                                                )
+                                            )
+                                        )
+                               )
+                        )
+                    )
+                )
+        ),
+        
+        ### 4.6 ML----
+        ##### 4.6.1 ml_readme tab content ----
          tabItem(
              tabName = "ml_readme",
              class   = "container",
@@ -1037,7 +1252,7 @@ body <- dashboardBody(
              )
          ),
 
-        ##### 4.5.2 ml_model tab content ----
+        ##### 4.6.2 ml_model tab content ----
          tabItem(tabName = "ml_model",
                  class = "fluid-container",
                  fluidRow(
@@ -1050,7 +1265,7 @@ body <- dashboardBody(
                                              sidebarPanel(width = 4,
                                                           style = "background:  #E4EAEA; border: 1px solid #A5CCC9; border-radius: 2px;",
                                                           tabsetPanel(
-                                                              ###### 4.5.2.1 ML models ----
+                                                              ###### 4.6.2.1 ML models ----
                                                               tabPanel(title = "1. ML models",
                                                                        br(),
                                                                        
@@ -1093,7 +1308,7 @@ body <- dashboardBody(
                                                                        
                                                                        br(),br(),br()
                                                               ),
-                                                              ###### 4.5.2.2 Ensemble model ----
+                                                              ###### 4.6.2.2 Ensemble model ----
                                                               tabPanel(title = "2. Ensemble",
                                                                        br(),
                                                                        
@@ -1134,7 +1349,7 @@ body <- dashboardBody(
                                                                        
                                                                        br(),br(),br()
                                                               ),
-                                                              ###### 4.5.2.3 AutoML ----
+                                                              ###### 4.6.2.3 AutoML ----
                                                               tabPanel(title = "3. AutoML",
                                                                        br(),
                                                                        
@@ -1262,8 +1477,8 @@ body <- dashboardBody(
                      )
                  )
          ),
-        ### 4.6 DL----
-        #### 4.6.1 dl_readme tab content ----
+        ### 4.7 DL----
+        #### 4.7.1 dl_readme tab content ----
         tabItem(
             tabName = "dl_readme",
             class   = "container",
@@ -1290,7 +1505,7 @@ body <- dashboardBody(
                 )
             )
         ),
-        #### 4.6.2 dl_model tab content ----
+        #### 4.7.2 dl_model tab content ----
         tabItem(tabName = "dl_model",
                 class = "fluid-container",
                 fluidRow(
@@ -1310,6 +1525,8 @@ body <- dashboardBody(
                                                              options  = list('actions-box' = TRUE),
                                                              multiple = TRUE
                                                          ),
+                                                         
+                                                         hr(),
                                                          
                                                          numericInput(
                                                              inputId = "dl_epochs",
@@ -2009,6 +2226,7 @@ server <- function(session, input, output) {
                            showCloseButton = TRUE)
         })
     })
+    
     #____________________________________----
     #4.4.2 arima_model TAB ----
     
@@ -2540,7 +2758,326 @@ server <- function(session, input, output) {
     )
     
     #____________________________________----
-    #4.5.2 ml_model TAB ----
+    
+    # 4.5.2 ets_model TAB ----
+    
+    ## ets_model inputs ----
+    
+    output$ets_double_inputs <- renderUI({
+        if("Double/Holt" %in% input$ets_model_selection){
+            list(
+                hr(),
+                htmlOutput(
+                    outputId = "ets_double_text"
+                ),
+                switchInput(
+                    inputId   = "double_trend",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Trend"
+                )
+            )
+        }
+    })
+    
+    output$ets_double_text <- renderText({
+        paste("<h4><b>Double/Holt parameters:")
+    })
+    
+    output$ets_holt_inputs <- renderUI({
+        if("Holt-Winters" %in% input$ets_model_selection){
+            list(
+                hr(),
+                htmlOutput(
+                    outputId = "ets_holtwinters_text"
+                ),
+                # switchInput(
+                #     inputId   = "holt_trend",
+                #     onLabel   = "Additive",
+                #     offLabel  = "Multiplicative",
+                #     onStatus  = "success",
+                #     offStatus = "danger",
+                #     label     = "Trend"   
+                # ),
+                # br(),
+                switchInput(
+                    inputId   = "holt_season",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Season"
+                )
+            )
+        }  
+    })
+    
+    output$ets_holtwinters_text <- renderText({
+        paste("<h4><b>Holt-Winters parameters:")
+    })
+    
+    
+    output$ets_horizon <- renderUI({
+        shinyWidgets::numericInputIcon(
+            inputId = "ets_horizon",
+            value   = rv$horizon_recommended,
+            min     = 1,
+            label   = "Enter a Forecast Horizon",
+            icon    = icon("chart-line")
+        )
+    })
+    
+    observeEvent(input$run_ets, {
+        
+        req(input$ets_horizon)
+        req(input$ets_model_selection)
+        req(rv$data)
+        
+        print("Exponential Smoothing modelling in progress")
+        
+        ## Progress bar ----
+        progress <- shiny::Progress$new()
+        on.exit(progress$close())
+        progress$set(message = "Exponential Smoothing modelling in progress", value = 0)
+        
+        ##Text dialog ----
+        showModal(
+            modalDialog(
+                title = "Exponential Smoothing modelling  in progress",
+                "Training the chosen Exponential Smoothing models. This will take a few moments, feel free to explore the time series in the meantime.",
+                footer = modalButton("Dismiss"),
+                easyClose = TRUE,
+                fade = TRUE
+            )
+        )
+        
+        ##EXTENDING data ----
+        rv$trans_fun     <- log1p
+        rv$trans_fun_inv <- expm1
+        
+        full_data_tbl <- rv$data %>%
+            
+            # Remove missing values
+            na.omit() %>%
+            
+            # Apply transformation
+            mutate(Value = ifelse(Value < 0, 0, Value)) %>%
+            mutate(Value = rv$trans_fun(Value)) %>% 
+            
+            future_frame(
+                .date_var   = Date,
+                .length_out = input$ets_horizon,
+                .bind_data  = TRUE
+            )
+        
+        # Data Prepared
+        actual_data <- full_data_tbl %>%
+            filter(!is.na(Value))
+        
+        rv$ets_data_prepared_tbl <- actual_data %>%
+            drop_na()
+        
+        rv$ets_future_tbl <- full_data_tbl %>%
+            filter(is.na(Value))
+        
+        ## SPLITTING data----
+        rv$splits <- rv$ets_data_prepared_tbl %>%
+            time_series_split(
+                date_var   = Date,
+                assess     = input$ets_horizon,
+                cumulative = TRUE
+            )
+        
+        ## Model Parameters ----
+        
+        if("Double/Holt" %in% input$ets_model_selection){
+            
+            if (input$double_trend == FALSE){
+                rv$trend_function <- "multiplicative"
+            }
+            if (input$double_trend == TRUE){
+                rv$trend_function <- "additive"
+            }
+            
+        }
+        
+        if("Holt-Winters" %in% input$ets_model_selection){
+            # if (input$holt_trend == FALSE){
+            #     rv$trend_function <- "multiplicative"
+            # }
+            # if (input$holt_trend == TRUE){
+            #     rv$trend_function <- "additive"
+            # }
+            
+            if (input$holt_season == FALSE){
+                rv$season_function <- "multiplicative"
+            }
+            if (input$holt_season == TRUE){
+                rv$season_function <- "additive"
+            }
+        }
+        
+        progress$inc(1/7, detail = percent(1/7,accuracy = 0.01))
+        
+        ##1+2/7 Models----
+        rv$ets_models_tbl <- ets_models(input           = input$ets_model_selection,
+                                        dat             = training(rv$splits),
+                                        trend_function  = rv$trend_function,
+                                        season_function = rv$season_function)
+        
+        print(rv$ets_models_tbl)
+        
+        ## 3/7 Calibration----
+        progress$inc(1/7, detail = percent(3/7,accuracy = 0.01))
+        
+        rv$ets_calibration_tbl <- rv$ets_models_tbl %>%
+            modeltime_calibrate(testing(rv$splits))
+        
+        ## 4/7 Accuracy----
+        progress$inc(1/7, detail = percent(4/7,accuracy = 0.01))
+        
+        rv$ets_accuracy_tbl <- rv$ets_calibration_tbl %>%
+            mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
+                tbl %>%
+                    mutate(
+                        .actual     = rv$trans_fun_inv(.actual),
+                        .prediction = rv$trans_fun_inv(.prediction),
+                        .residuals  = .actual - .prediction
+                    )
+            })) %>%
+            modeltime_accuracy()
+        
+        ## 5/7 Test Forecast----
+        progress$inc(1/7, detail = percent(5/7,accuracy = 0.01))
+        
+        rv$ets_forecast_tbl <- rv$ets_calibration_tbl %>%
+            modeltime_forecast(
+                new_data    = testing(rv$splits),
+                actual_data = rv$ets_data_prepared_tbl
+            )%>%
+            mutate(
+                across(.cols = c(.value, .conf_lo, .conf_hi),
+                       .fns  = function(x) rv$trans_fun_inv(x))
+            )
+        
+        ##6/7 Refitting to full dataset----
+        progress$inc(1/7, detail = percent(6/7,accuracy = 0.01))
+        
+        rv$ets_refit_tbl <-  rv$ets_calibration_tbl %>% 
+            modeltime_refit(data = rv$ets_data_prepared_tbl
+            )
+        
+        ## 7/7 Forecast future horizon----
+        progress$inc(1/7, detail = percent(7/7,accuracy = 0.01))
+        rv$ets_future_forecast_tbl <- rv$ets_refit_tbl %>%
+            modeltime_forecast(
+                new_data    = rv$ets_future_tbl,
+                actual_data = rv$ets_data_prepared_tbl,
+                keep_data   = TRUE
+            ) %>%
+            mutate(
+                across(.cols = c(.value, .conf_lo, .conf_hi),
+                       .fns  = function(x) rv$trans_fun_inv(x))
+            )
+        
+        removeModal()
+        
+        message("\nETS modelling Done!")
+    })
+    
+    #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
+    ## Plot (ets_test_plot)----
+    output$ets_test_plot <- renderPlotly({
+        req(rv$ets_forecast_tbl)
+        
+        df <- rv$ets_forecast_tbl
+        
+        g <- df %>%
+            plot_modeltime_forecast(
+                .conf_interval_alpha = 0.2,
+                .legend_show         = TRUE,
+                .title               = NULL,
+                .legend_max_width    = 25,
+                .interactive         = FALSE
+            )
+        
+        ggplotly(g, dynamicTicks = TRUE) %>%
+            rangeslider()
+    })
+    
+    ## Accuracy Table (ets_table_accuracy) ----
+    output$ets_table_accuracy <- renderReactable({
+        req(rv$ets_accuracy_tbl)
+        
+        rect_data <- rv$ets_accuracy_tbl %>% 
+            table_modeltime_accuracy(
+                .searchable    = FALSE,
+                .show_sortable = FALSE
+            )
+        return(rect_data)
+    })
+    
+    ## Future Plot (ets_forecast_plot)----
+    output$ets_forecast_plot <- renderPlotly({
+        req(rv$ets_future_forecast_tbl)
+        
+        df <- rv$ets_future_forecast_tbl
+        
+        g <- df %>% 
+            plot_modeltime_forecast(
+                .conf_interval_alpha = 0.1,
+                .conf_interval_show  = input$ets_forecast_plot_conf,
+                .legend_show         = input$ets_forecast_plot_legend,
+                .title               = NULL,
+                .interactive         = FALSE
+            )+
+            scale_y_continuous(labels = scales::comma_format())
+        
+        ggplotly(g, dynamicTicks = TRUE) %>%
+            rangeslider()
+    })
+    
+    ## Forecast table (ets_table_forecast)----
+    output$ets_table_forecast <- renderReactable({
+        req(rv$ets_future_forecast_tbl)
+        data <- rv$ets_future_forecast_tbl %>% 
+            filter(.key =="prediction") %>% 
+            select(-c(Value, .index))
+        
+        rect_data <- reactable(data,
+                               defaultPageSize     = 5,
+                               pageSizeOptions     = c(5, 10, 20),
+                               groupBy             = ".model_desc",
+                               showPageSizeOptions = TRUE,
+                               minRows             = 1,
+                               sortable            = TRUE,
+                               highlight           = TRUE,
+                               defaultColDef       = colDef(
+                                   footer = function(values, name) htmltools::div(name, style = list(fontWeight = 600))
+                               )
+        )
+    })
+    
+    ## Forecast table downloader (ets_download_forecast)----
+    output$ml_download_forecast <- downloadHandler(
+        filename = function() {
+            paste({input$ml_horizon}, "_ml_forecast_", {file_path_sans_ext(input$file_main)}, ".csv", sep = "")
+        },
+        
+        content = function(file) {
+            req(rv$ml_future_forecast_tbl)
+            data <- rv$ml_future_forecast_tbl %>% 
+                filter(.key =="prediction") %>% 
+                select(-c(Value, .index))
+            
+            write.csv(data, file, row.names = FALSE)
+        }
+    )
+    
+    #____________________________________----
+    #4.6.2 ml_model TAB ----
     
     output$ml_horizon <- output$ensemble_horizon <- output$auto_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
@@ -2944,7 +3481,7 @@ server <- function(session, input, output) {
         on.exit(progress$close())
         progress$set(message = "AutoML modelling in progress", value = 0)
 
-        ##Text dialog ----
+        #Text dialog ----
         showModal(
             modalDialog(
                 title = "AutoML modelling  in progress",
@@ -2955,7 +3492,7 @@ server <- function(session, input, output) {
             )
         )
 
-        ##EXTENDING data ----
+        #EXTENDING data ----
         full_data_tbl <- rv$data %>%
 
             # Remove missing values
@@ -2981,7 +3518,7 @@ server <- function(session, input, output) {
         rv$automl_future_tbl <- full_data_tbl %>%
             filter(is.na(Value))
 
-        ## SPLITTING data----
+        # SPLITTING data----
         rv$splits <- rv$automl_data_prepared_tbl %>%
             time_series_split(
                 date_var   = Date,
@@ -2989,7 +3526,7 @@ server <- function(session, input, output) {
                 cumulative = TRUE
             )
 
-        ## PREPROCESSOR ----
+        # PREPROCESSOR ----
         form          <- formula(str_c(rv$value_name, " ~ ."))
         date_var_text <- rv$date_name
 
@@ -3000,13 +3537,13 @@ server <- function(session, input, output) {
 
         rv$recipe_spec_auto %>% prep() %>% juice()
 
-        ## Model parameters ----
+        # Model parameters ----
         rv$auto_time       <- input$auto_time
         rv$auto_model_time <- input$auto_model_time
         rv$auto_max_models <- input$auto_max_models
         rv$auto_nfolds     <- input$auto_nfolds
 
-        ##0/7 Inititalize H2O ----
+        #0/7 Inititalize H2O ----
         progress$inc(1/8, detail = percent(1/8,accuracy = 0.01))
 
         h2o.init(
@@ -3015,7 +3552,7 @@ server <- function(session, input, output) {
             port     = 54321
         )
 
-        ##1/7 Models----
+        #1/7 Models----
         progress$inc(1/8, detail = percent(2/8,accuracy = 0.01))
 
         model_spec_h2o <- automl_reg(mode = "regression") %>%
@@ -3042,19 +3579,19 @@ server <- function(session, input, output) {
 
         rv$automl_tbl <- modeltime_table(wflw_fit_h2o)
 
-        ## 3/7 Calibration----
+        # 3/7 Calibration----
         progress$inc(1/8, detail = percent(4/8,accuracy = 0.01))
 
         rv$automl_calibration_tbl <- rv$automl_tbl %>%
             modeltime_calibrate(new_data = testing(rv$splits))
 
-        ## 4/7 Accuracy----
+        # 4/7 Accuracy----
         progress$inc(1/8, detail = percent(5/8,accuracy = 0.01))
 
         rv$automl_accuracy_tbl <- rv$automl_calibration_tbl %>%
             modeltime_accuracy()
 
-        ## 5/7 Test Forecast----
+        # 5/7 Test Forecast----
         progress$inc(1/8, detail = percent(6/8,accuracy = 0.01))
 
         rv$automl_forecast_tbl <- rv$automl_calibration_tbl %>%
@@ -3063,7 +3600,7 @@ server <- function(session, input, output) {
                 actual_data = rv$automl_data_prepared_tbl
             )
 
-        ##6/7 Refitting to full dataset----
+        #6/7 Refitting to full dataset----
         progress$inc(1/8, detail = percent(7/8,accuracy = 0.01))
 
         rv$automl_refit_tbl <-  rv$automl_calibration_tbl %>%
@@ -3071,7 +3608,7 @@ server <- function(session, input, output) {
             )
 
 
-        ## 7/7 Forecast future horizon----
+        # 7/7 Forecast future horizon----
         progress$inc(1/8, detail = percent(8/8,accuracy = 0.01))
 
         rv$automl_future_forecast_tbl <- rv$automl_refit_tbl %>%
@@ -3181,7 +3718,7 @@ server <- function(session, input, output) {
     )
     
     #____________________________________----
-    #4.6.2 dl_model TAB ----
+    #4.7.2 dl_model TAB ----
     
     output$dl_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
@@ -3255,7 +3792,7 @@ server <- function(session, input, output) {
     })
     
     #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
-    ##DL models ----
+    #DL models ----
     
     observeEvent(input$run_dl, {
 
@@ -3264,12 +3801,12 @@ server <- function(session, input, output) {
         
         print("Deep Learning modelling in progress")
         
-        ###Progress bar ----
+        ##Progress bar ----
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "Deep Learning modelling in progress", value = 0)
 
-        ##Text dialog ----
+        # Text dialog ----
         showModal(
             modalDialog(
                 title = "Deep Learning modelling  in progress",
@@ -3280,7 +3817,7 @@ server <- function(session, input, output) {
             )
         )
 
-        ##EXTENDING data ----
+        # EXTENDING data ----
         full_data_tbl <- rv$data %>%
 
             #Gluonts algorithms require an id var
@@ -3309,7 +3846,7 @@ server <- function(session, input, output) {
         rv$dl_future_tbl <- full_data_tbl %>%
             filter(is.na(Value))
 
-        ## SPLITTING data----
+        # SPLITTING data----
         rv$splits <- rv$dl_data_prepared_tbl %>%
             time_series_split(
                 date_var   = Date,
@@ -3317,12 +3854,12 @@ server <- function(session, input, output) {
                 cumulative = TRUE
             )
         
-        ## Model Parameters ----
+        # Model Parameters ----
         rv$epochs        <- input$dl_epochs
         rv$bagging       <- input$dl_nb_bagging
         rv$loss_function <- input$dl_nb_loss_function
         
-        ##1+2/7 Modeltime table ----
+        #1+2/7 Modeltime table ----
         progress$inc(1/6, detail = percent(1/6))
         
         rv$dl_models_tbl <- DL_models(input         = input$dl_model_selection,
@@ -3333,20 +3870,20 @@ server <- function(session, input, output) {
                                       bagging       = rv$bagging,
                                       loss_function = rv$loss_function)
         
-        ##3/7 Calibration ----
+        #3/7 Calibration ----
         progress$inc(2/6, detail = percent(2/6))
         
         rv$dl_calibration_tbl <- rv$dl_models_tbl %>% 
             modeltime_calibrate(new_data = testing(rv$splits)
             )
         
-        ##4/7 Accuracy ----
+        #4/7 Accuracy ----
         progress$inc(3/6, detail = percent(3/6))
         
         rv$dl_accuracy_tbl <- rv$dl_calibration_tbl %>%
             modeltime_accuracy()
         
-        ##5/7 Test forecast ----
+        #5/7 Test forecast ----
         progress$inc(4/6, detail = percent(4/6))
         
         rv$dl_forecast_tbl <- rv$dl_calibration_tbl %>% 
@@ -3354,14 +3891,14 @@ server <- function(session, input, output) {
                                actual_data = rv$dl_data_prepared_tbl
             )
         
-        ##6/7 Refitting to full dataset ----
+        #6/7 Refitting to full dataset ----
         progress$inc(5/6, detail = percent(5/6))
         
         rv$dl_refit_tbl <- rv$dl_calibration_tbl %>% 
             modeltime_refit(data = rv$dl_data_prepared_tbl
             )
         
-        ##7/7 Forecast future horizon ----
+        #7/7 Forecast future horizon ----
         progress$inc(6/6, detail = percent(6/6))
         
         rv$dl_future_forecast_tbl <-rv$dl_refit_tbl %>% 
@@ -3377,7 +3914,7 @@ server <- function(session, input, output) {
     })
         
         #. . . . . . . . . . . . . . . . . . . . . . ----
-        # Plot (dl_test_plot)----
+        ## Plot (dl_test_plot)----
         output$dl_test_plot <- renderPlotly({
             req(rv$dl_forecast_tbl)
             
@@ -3396,7 +3933,7 @@ server <- function(session, input, output) {
                 rangeslider()
         })
         
-        # Accuracy Table (dl_table_accuracy) ----
+        ## Accuracy Table (dl_table_accuracy) ----
         output$dl_table_accuracy <- renderReactable({
             req(rv$dl_accuracy_tbl)
             
@@ -3408,7 +3945,7 @@ server <- function(session, input, output) {
             return(rect_data)
         })
         
-        # Future Plot (dl_forecast_plot)----
+        ## Future Plot (dl_forecast_plot)----
         output$dl_forecast_plot <- renderPlotly({
             req(rv$dl_future_forecast_tbl)
             
@@ -3428,7 +3965,7 @@ server <- function(session, input, output) {
                 rangeslider()
         })
         
-        # Forecast table (dl_table_forecast)----
+        ## Forecast table (dl_table_forecast)----
         output$dl_table_forecast <- renderReactable({
             req(rv$dl_future_forecast_tbl)
             data <- rv$dl_future_forecast_tbl %>% 
@@ -3449,7 +3986,7 @@ server <- function(session, input, output) {
             )
         })
         
-        # Forecast table downloader (dl_download_forecast)----
+        ## Forecast table downloader (dl_download_forecast)----
         output$dl_download_forecast <- downloadHandler(
             filename = function() {
                 paste({input$dl_horizon}, "_dl_forecast_", {file_path_sans_ext(input$file_main)}, ".csv", sep = "")
