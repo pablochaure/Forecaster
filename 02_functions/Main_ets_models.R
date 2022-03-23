@@ -2,6 +2,19 @@ ets_models <-  function(input, dat, trend_function, season_function){
   
   modeltime_table_ets <- modeltime_table()
   
+  if ("Auto" %in% input){
+    
+    model_fit_auto_ets <- exp_smoothing() %>% 
+      set_engine("ets") %>% 
+      fit(Value ~ Date,
+          data = dat)
+    
+    modeltime_table_ets <- modeltime_table_ets %>% 
+      add_modeltime_model(model = model_fit_auto_ets)
+    
+    print("AUTO ETS model ok!")
+  }
+  
   if ("Simple" %in% input){
     model_fit_simple_ets <- ses_forecast(train_data = dat)
     
@@ -41,23 +54,21 @@ ets_models <-  function(input, dat, trend_function, season_function){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "ets_models"
     ),
     
-    file = "00_scripts/f_ets_models.R",
+    file = "01_source/f_ets_models.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "ets_models"
     ),
     
-    file = "00_scripts/f_ets_models.R",
+    file = "01_source/f_ets_models.R",
     append = FALSE)
 }
-
-

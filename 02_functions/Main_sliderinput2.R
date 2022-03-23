@@ -17,21 +17,21 @@ sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, f
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "sliderInput2"
     ),
     
-    file = "00_scripts/f_sliderInput2.R",
+    file = "01_source/f_sliderInput2.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "sliderInput2"
     ),
     
-    file = "00_scripts/f_sliderInput2.R",
+    file = "01_source/f_sliderInput2.R",
     append = FALSE)
 }

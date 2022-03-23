@@ -8,21 +8,21 @@ get_loadings <- function(calibration_tbl){
 }
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "get_loadings"
     ),
     
-    file = "00_scripts/f_get_loadings.R",
+    file = "01_source/f_get_loadings.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "get_loadings"
     ),
     
-    file = "00_scripts/f_get_loadings.R",
+    file = "01_source/f_get_loadings.R",
     append = FALSE)
 }

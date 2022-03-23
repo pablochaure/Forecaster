@@ -1072,7 +1072,7 @@ body <- dashboardBody(
                                                          shinyWidgets::pickerInput(
                                                              inputId  = "ets_model_selection",
                                                              label    = "Select the models you wish to train:", 
-                                                             choices  = c("Simple", "Double/Holt","Holt-Winters"),
+                                                             choices  = c("Simple", "Double/Holt","Holt-Winters", "Auto"),
                                                              options  = list('actions-box' = TRUE),
                                                              multiple = TRUE
                                                          ),
@@ -1087,11 +1087,13 @@ body <- dashboardBody(
                                                          
                                                          hr(),
                                                          
-                                                         uiOutput(outputId = "ets_horizon"
+                                                         uiOutput(
+                                                             outputId = "ets_horizon"
                                                          ),
                                                          
                                                          textOutput(
-                                                             outputId = "ets_horizon_recommended"),
+                                                             outputId = "ets_horizon_recommended"
+                                                         ),
                                                          
                                                          br(),
                                                          # uiOutput("train_test"
@@ -2922,6 +2924,8 @@ server <- function(session, input, output) {
         progress$inc(1/7, detail = percent(1/7,accuracy = 0.01))
         
         ##1+2/7 Models----
+        print(input$ets_model_selection)
+        print(input$ets_auto_checkbox)
         rv$ets_models_tbl <- ets_models(input           = input$ets_model_selection,
                                         dat             = training(rv$splits),
                                         trend_function  = rv$trend_function,

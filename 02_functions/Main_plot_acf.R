@@ -273,7 +273,7 @@ plot_acf.grouped_df <- function(.data, .date_var, .value, .ccf_vars = NULL, .lag
 }
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "plot_acf",
@@ -281,10 +281,10 @@ if(dir.exists("00_scripts")){
       "plot_acf.grouped_df"
     ),
     
-    file = "00_scripts/f_plot_acf.R",
+    file = "01_source/f_plot_acf.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "plot_acf",
@@ -292,7 +292,7 @@ if(dir.exists("00_scripts")){
       "plot_acf.grouped_df"
     ),
     
-    file = "00_scripts/f_plot_acf.R",
+    file = "01_source/f_plot_acf.R",
     append = FALSE)
 }
 
