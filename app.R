@@ -1072,9 +1072,13 @@ body <- dashboardBody(
                                                          shinyWidgets::pickerInput(
                                                              inputId  = "ets_model_selection",
                                                              label    = "Select the models you wish to train:", 
-                                                             choices  = c("Simple", "Double/Holt","Holt-Winters", "Auto"),
+                                                             choices  = c("Simple", "Holt","Holt-Winters", "Auto"),
                                                              options  = list('actions-box' = TRUE),
                                                              multiple = TRUE
+                                                         ),
+                                                         
+                                                         uiOutput(
+                                                             outputId = "ets_simple_inputs"
                                                          ),
                                                          
                                                          uiOutput(
@@ -2765,12 +2769,57 @@ server <- function(session, input, output) {
     
     ## ets_model inputs ----
     
+    output$ets_simple_inputs <- renderUI({
+        if("Simple" %in% input$ets_model_selection){
+            list(
+                hr(),
+                htmlOutput(
+                    outputId = "ets_simple_text"
+                ),
+                switchInput(
+                    inputId   = "simple_error",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Error",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
+                )
+            )
+        }
+    })
+    
+    output$ets_simple_text <- renderText({
+        paste("<h4><b>Simple model parameters:")
+    })
+    
     output$ets_double_inputs <- renderUI({
-        if("Double/Holt" %in% input$ets_model_selection){
+        if("Holt" %in% input$ets_model_selection){
             list(
                 hr(),
                 htmlOutput(
                     outputId = "ets_double_text"
+                ),
+                switchInput(
+                    inputId   = "double_error",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Error",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
+                ),
+                switchInput(
+                    inputId   = "double_damping",
+                    onLabel   = "ON",
+                    offLabel  = "OFF",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Damped Trend",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
                 ),
                 switchInput(
                     inputId   = "double_trend",
@@ -2778,14 +2827,16 @@ server <- function(session, input, output) {
                     offLabel  = "Multiplicative",
                     onStatus  = "success",
                     offStatus = "danger",
-                    label     = "Trend"
+                    label     = "Trend",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
                 )
             )
         }
     })
     
     output$ets_double_text <- renderText({
-        paste("<h4><b>Double/Holt parameters:")
+        paste("<h4><b>Holt model parameters:")
     })
     
     output$ets_holt_inputs <- renderUI({
@@ -2793,30 +2844,54 @@ server <- function(session, input, output) {
             list(
                 hr(),
                 htmlOutput(
-                    outputId = "ets_holtwinters_text"
+                    outputId = "ets_holt_text"
                 ),
-                # switchInput(
-                #     inputId   = "holt_trend",
-                #     onLabel   = "Additive",
-                #     offLabel  = "Multiplicative",
-                #     onStatus  = "success",
-                #     offStatus = "danger",
-                #     label     = "Trend"   
-                # ),
-                # br(),
+                switchInput(
+                    inputId   = "holt_error",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Error",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
+                ),
+                switchInput(
+                    inputId   = "holt_damping",
+                    onLabel   = "ON",
+                    offLabel  = "OFF",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Damped Trend",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
+                ),
+                switchInput(
+                    inputId   = "holt_trend",
+                    onLabel   = "Additive",
+                    offLabel  = "Multiplicative",
+                    onStatus  = "success",
+                    offStatus = "danger",
+                    label     = "Trend",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
+                ),
+                br(),
                 switchInput(
                     inputId   = "holt_season",
                     onLabel   = "Additive",
                     offLabel  = "Multiplicative",
                     onStatus  = "success",
                     offStatus = "danger",
-                    label     = "Season"
+                    label     = "Season",
+                    labelWidth = "117px",
+                    handleWidth = "117px"
                 )
             )
         }  
     })
     
-    output$ets_holtwinters_text <- renderText({
+    output$ets_holt_text <- renderText({
         paste("<h4><b>Holt-Winters parameters:")
     })
     

@@ -26,7 +26,7 @@ function(input, dat, trend_function, season_function){
     
   }
   
-  if ("Double/Holt" %in% input){
+  if ("Holt" %in% input){
     
     model_fit_double_ets <- holt_forecast(train_data     = dat,
                                           trend_function = trend_function)
