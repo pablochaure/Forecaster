@@ -468,7 +468,7 @@ body <- dashboardBody(
     includeCSS("www/style.css"),
     
     tabItems(
-        ### 4.1 app_description tab content ----
+        ## 4.1 app_description tab content ----
         tabItem(
             tabName = "app_description",
             class   = "container",
@@ -535,7 +535,7 @@ body <- dashboardBody(
             )
         ),
         
-        ### 4.2 app_load tab content ----
+        ## 4.2 app_load tab content ----
         tabItem(tabName = "app_load",
                 class = "fluid-container",
                 fluidRow(
@@ -618,7 +618,7 @@ body <- dashboardBody(
                 )
         ),
         
-        ### 4.3 app_exploration tab content ----
+        ## 4.3 app_exploration tab content ----
         tabItem(tabName = "app_exploration",
                 class   = "fluid-container",
                 fluidRow(
@@ -707,7 +707,7 @@ body <- dashboardBody(
                                         )
                                ),
                                
-                               tabPanel(title = "Time series breakdown",
+                               tabPanel(title = "Time series decomposition",
                                         wellPanel(style = "background-color: white;",
                                                   fluidRow(
                                                       tags$h3("Seasonality",
@@ -741,7 +741,7 @@ body <- dashboardBody(
                 )
         ),
         
-        ### 4.4 ARIMA----
+        ## 4.4 ARIMA----
         ##### 4.4.1 arima_readme tab content ----
         tabItem(
             tabName = "arima_readme",
@@ -991,8 +991,8 @@ body <- dashboardBody(
                 )
         ),
         
-        ### 4.5 EXPONENTIAL SMOOTHING----
-        ##### 4.5.1 ets_readme tab content ----
+        ## 4.5 EXPONENTIAL SMOOTHING----
+        ### 4.5.1 ets_readme tab content ----
         tabItem(
             tabName = "ets_readme",
             class   = "container",
@@ -1057,7 +1057,7 @@ body <- dashboardBody(
             )
         ),
         
-        ##### 4.5.2 ets_model tab content ----
+        ### 4.5.2 ets_model tab content ----
         tabItem(tabName = "ets_model",
                 class = "fluid-container",
                 fluidRow(
@@ -1132,10 +1132,11 @@ body <- dashboardBody(
                                                     fluidRow(
                                                         reactableOutput(outputId = "ets_table_accuracy")
                                                     ),
-                                                    tags$h5("Read more about forecasting accuracy metrics", a("here",
-                                                                                                              href   = "Forecast_KPIs.pdf",
-                                                                                                              target = "_blank",
-                                                                                                              class  = "ref_link")
+                                                    tags$h5("Read more about forecasting accuracy metrics",
+                                                            a("here",
+                                                              href   = "Forecast_KPIs.pdf",
+                                                              target = "_blank",
+                                                              class  = "ref_link")
                                                     )
                                                 )
                                             )
@@ -1192,7 +1193,7 @@ body <- dashboardBody(
                 )
         ),
         
-        ### 4.6 ML----
+        ## 4.6 ML----
         ##### 4.6.1 ml_readme tab content ----
          tabItem(
              tabName = "ml_readme",
@@ -1483,7 +1484,7 @@ body <- dashboardBody(
                      )
                  )
          ),
-        ### 4.7 DL----
+        ## 4.7 DL----
         #### 4.7.1 dl_readme tab content ----
         tabItem(
             tabName = "dl_readme",
@@ -1667,7 +1668,7 @@ footer <-  dashboardFooter(
                          icon = icon("linkedin"))
         )
     ),
-    right = "2021"
+    right = "2022"
 )
 
 # UI ----
@@ -1888,7 +1889,7 @@ server <- function(session, input, output) {
     },ignoreNULL = FALSE)
     
     ## Recommended horizon (horizon_recommended) ----
-    output$auto_arima_horizon_recommended <- output$manual_arima_horizon_recommended <- output$ml_horizon_recommended <- output$ensemble_horizon_recommended <- output$auto_horizon_recommended <- output$dl_horizon_recommended <- renderText(
+    output$auto_arima_horizon_recommended <- output$manual_arima_horizon_recommended <- output$ml_horizon_recommended <- output$ets_horizon_recommended <- output$ensemble_horizon_recommended <- output$auto_horizon_recommended <- output$dl_horizon_recommended <- renderText(
         paste("We recommend forecasting at least", {rv$horizon_recommended}, "periods for a better performance.")
     )
     
@@ -2777,14 +2778,16 @@ server <- function(session, input, output) {
                     outputId = "ets_simple_text"
                 ),
                 switchInput(
-                    inputId   = "simple_error",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Error",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                    inputId     = "simple_error",
+                    value       = TRUE,
+                    onLabel     = "Additive",
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Error",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
                 )
             )
         }
@@ -2802,34 +2805,35 @@ server <- function(session, input, output) {
                     outputId = "ets_double_text"
                 ),
                 switchInput(
-                    inputId   = "double_error",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Error",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                    inputId     = "double_error",
+                    value       = TRUE,
+                    onLabel     = "Additive",
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Error",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
                 ),
                 switchInput(
-                    inputId   = "double_damping",
-                    onLabel   = "ON",
-                    offLabel  = "OFF",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Damped Trend",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                    inputId     = "double_trend",
+                    onLabel     = "Additive",
+                    value       = TRUE,
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Trend",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
                 ),
-                switchInput(
-                    inputId   = "double_trend",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Trend",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                shinyWidgets::prettyCheckbox(
+                    inputId = "double_damping",
+                    label   = "Damped trend?", 
+                    value   = FALSE,
+                    status  = "warning",
+                    icon    = icon("check")
                 )
             )
         }
@@ -2847,54 +2851,72 @@ server <- function(session, input, output) {
                     outputId = "ets_holt_text"
                 ),
                 switchInput(
-                    inputId   = "holt_error",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Error",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                    inputId     = "holt_error",
+                    value       = TRUE,
+                    onLabel     = "Additive",
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Error",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
+                ),
+                shinyWidgets::prettyCheckbox(
+                    inputId = "holt_trend_checkbox",
+                    label   = "Do you want trend?", 
+                    value   = TRUE,
+                    status  = "warning",
+                    icon    = icon("check")
+                ),
+                uiOutput(
+                    outputId = "holt_trend"
                 ),
                 switchInput(
-                    inputId   = "holt_damping",
-                    onLabel   = "ON",
-                    offLabel  = "OFF",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Damped Trend",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
-                ),
-                switchInput(
-                    inputId   = "holt_trend",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Trend",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
-                ),
-                br(),
-                switchInput(
-                    inputId   = "holt_season",
-                    onLabel   = "Additive",
-                    offLabel  = "Multiplicative",
-                    onStatus  = "success",
-                    offStatus = "danger",
-                    label     = "Season",
-                    labelWidth = "117px",
-                    handleWidth = "117px"
+                    inputId     = "holt_season",
+                    value       = TRUE,
+                    onLabel     = "Additive",
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Season",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
                 )
             )
         }  
     })
     
+    output$holt_trend <- renderUI({
+        if (input$holt_trend_checkbox == 1){
+            list(
+                switchInput(
+                    inputId     = "holt_trend",
+                    onLabel     = "Additive",
+                    value       = TRUE,
+                    offLabel    = "Multiplicative",
+                    onStatus    = "success",
+                    offStatus   = "danger",
+                    label       = "Trend",
+                    inline      = TRUE,
+                    labelWidth  = "110px",
+                    handleWidth = "110px"
+                ),
+                shinyWidgets::prettyCheckbox(
+                    inputId = "holt_damping",
+                    label   = "Damped trend?", 
+                    value   = FALSE,
+                    status  = "warning",
+                    icon    = icon("check")
+                )
+            )
+        }
+    })
+    
     output$ets_holt_text <- renderText({
         paste("<h4><b>Holt-Winters parameters:")
     })
-    
     
     output$ets_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
@@ -2968,44 +2990,77 @@ server <- function(session, input, output) {
             )
         
         ## Model Parameters ----
-        
-        if("Double/Holt" %in% input$ets_model_selection){
-            
-            if (input$double_trend == FALSE){
-                rv$trend_function <- "multiplicative"
-            }
-            if (input$double_trend == TRUE){
-                rv$trend_function <- "additive"
-            }
-            
+        # SIMPLE
+        if("Simple" %in% input$ets_model_selection){
+           if(input$simple_error == FALSE){
+                rv$s_error <- "multiplicative"
+            }else{
+                rv$s_error <- "additive"
+            } 
         }
-        
+        #DOUBLE/HOLT
+        if("Holt" %in% input$ets_model_selection){
+            if(input$double_error == FALSE){
+                rv$d_error <- "multiplicative"
+            }else{
+                rv$d_error <- "additive"
+            }
+            
+            if(input$double_trend == FALSE){
+                rv$d_trend <- "multiplicative"
+            }else{
+                rv$d_trend <- "additive"
+            }
+            
+            if(input$double_damping == FALSE){
+                rv$d_damping <- "none"
+            }else{
+                rv$d_damping <- "damped"
+            } 
+        }
+        #HOLTWINTERS
         if("Holt-Winters" %in% input$ets_model_selection){
-            # if (input$holt_trend == FALSE){
-            #     rv$trend_function <- "multiplicative"
-            # }
-            # if (input$holt_trend == TRUE){
-            #     rv$trend_function <- "additive"
-            # }
-            
-            if (input$holt_season == FALSE){
-                rv$season_function <- "multiplicative"
+            if(input$holt_error == FALSE){
+                rv$hw_error <- "multiplicative"
+            }else{
+                rv$hw_error <- "additive"
             }
-            if (input$holt_season == TRUE){
-                rv$season_function <- "additive"
+            
+            if(input$holt_trend == FALSE){
+                rv$hw_trend <- "multiplicative"
+            }else{
+                rv$hw_trend <- "additive"
+            }
+            
+            if(input$holt_damping == FALSE){
+                rv$hw_damping <- "none"
+            }else{
+                rv$hw_damping <- "damped"
+            }
+            
+            if(input$holt_season == FALSE){
+                rv$hw_season <- "multiplicative"
+            }else{
+                rv$hw_season <- "additive"
             }
         }
+        
         
         progress$inc(1/7, detail = percent(1/7,accuracy = 0.01))
         
         ##1+2/7 Models----
-        print(input$ets_model_selection)
-        print(input$ets_auto_checkbox)
-        rv$ets_models_tbl <- ets_models(input           = input$ets_model_selection,
-                                        dat             = training(rv$splits),
-                                        trend_function  = rv$trend_function,
-                                        season_function = rv$season_function)
-        
+        print("antes")
+        rv$ets_models_tbl <- ets_models(input      = input$ets_model_selection,
+                                        data       = training(rv$splits),
+                                        s_error    = rv$s_error,
+                                        d_error    = rv$d_error,
+                                        d_trend    = rv$d_trend,
+                                        d_damping  = rv$d_damping,
+                                        hw_error   = rv$hw_error,
+                                        hw_trend   = rv$hw_trend,
+                                        hw_damping = rv$hw_damping,
+                                        hw_season  = rv$hw_season)
+        print("despues")
         print(rv$ets_models_tbl)
         
         ## 3/7 Calibration----
