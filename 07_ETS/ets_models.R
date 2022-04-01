@@ -369,8 +369,31 @@ forecast_tbl <- calibration_tbl %>% modeltime_forecast(new_data = testing(split)
                                                        actual_data = data)
 plot_modeltime_forecast(forecast_tbl)
 
+# ..................................................................----
+# CUSTOM FUNCITONS ----
+m4 <- read_csv("00_data/m4_monthly.csv") %>% 
+  purrr::set_names(c("Date", "Value")) %>% 
+  dplyr::mutate(Date = as.Date(Date)) %>% 
+  dplyr::as_tibble()
 
+plot_time_series(m4,.date_var = Date,.value = Value)
 
+split <- m4 %>% 
+  timetk::time_series_split(date   = Date,
+                            assess     = 60,
+                            cumulative = TRUE)
+
+model_fit_auto_m4<- exp_smoothing() %>% 
+  set_engine("ets") %>% 
+  fit(Value ~ Date,
+      data = training(split))
+model_fit_auto_m4
+
+model_fit_auto_m4_custom <- exp_smoothing_custom() %>% 
+  set_engine("ets") %>% 
+  fit(Value ~ Date,
+      data = training(split))
+model_fit_auto_m4_custom
 
 
 

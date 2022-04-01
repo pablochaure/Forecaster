@@ -2,26 +2,13 @@ ets_models <-  function(input, data, s_error, d_error, d_trend, d_damping, hw_er
   
   modeltime_table_ets <- modeltime_table()
   
-  if ("Auto" %in% input){
-    
-    model_fit_auto_ets <- exp_smoothing() %>% 
-      set_engine("ets") %>% 
-      fit(Value ~ Date,
-          data = data)
-    
-    modeltime_table_ets <- modeltime_table_ets %>% 
-      add_modeltime_model(model = model_fit_auto_ets)
-    
-    print("AUTO ETS model ok!")
-  }
-  
   if ("Simple" %in% input){
     model_fit_simple_ets <- ses_forecast(train_data = data,
                                          error      = s_error)
     
     modeltime_table_ets <- modeltime_table_ets %>% 
       add_modeltime_model(model = model_fit_simple_ets)
-    
+
     print("SIMPLE ETS model ok!")
     
   }
@@ -53,7 +40,20 @@ ets_models <-  function(input, data, s_error, d_error, d_trend, d_damping, hw_er
     
     print("HOLT-WINTERS ETS model ok!")
   }
-
+  
+  if ("Auto" %in% input){
+    
+    model_fit_auto_ets <- modeltime::exp_smoothing() %>% 
+      set_engine("ets") %>% 
+      fit(Value ~ Date,
+          data = data)
+    
+    modeltime_table_ets <- modeltime_table_ets %>% 
+      add_modeltime_model(model = model_fit_auto_ets)
+    
+    print("AUTO ETS model ok!")
+  }
+  
   return(modeltime_table_ets)
 }
 
