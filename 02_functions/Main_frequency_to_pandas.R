@@ -19,22 +19,22 @@ frequency_to_pandas <- function(freq){
 }
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "frequency_to_pandas"
     ),
     
-    file = "00_scripts/f_frequency_to_pandas.R",
+    file = "01_source/f_frequency_to_pandas.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "frequency_to_pandas"
     ),
     
-    file = "00_scripts/f_frequency_to_pandas.R",
+    file = "01_source/f_frequency_to_pandas.R",
     append = FALSE)
 }
 

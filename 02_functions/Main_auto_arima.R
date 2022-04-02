@@ -37,21 +37,21 @@ auto_arima_table <- function(max_depth = 6, nrounds = 15, eta = 0.3, colsample_b
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "auto_arima_table"
     ),
     
-    file = "00_scripts/f_auto_arima.R",
+    file = "01_source/f_auto_arima.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "auto_arima_table"
     ),
     
-    file = "00_scripts/f_auto_arima.R",
+    file = "01_source/f_auto_arima.R",
     append = FALSE)
 }

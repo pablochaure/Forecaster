@@ -26,21 +26,21 @@ ml_models <-  function(input, recipe_1, recipe_2){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "ml_models"
     ),
     
-    file = "00_scripts/f_ml_models.R",
+    file = "01_source/f_ml_models.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "ml_models"
     ),
     
-    file = "00_scripts/f_ml_models.R",
+    file = "01_source/f_ml_models.R",
     append = FALSE)
 }

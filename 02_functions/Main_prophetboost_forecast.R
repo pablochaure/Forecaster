@@ -15,21 +15,21 @@ prophetboost_forecast <-  function(recipe){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "prophetboost_forecast"
     ),
     
-    file = "00_scripts/f_prophetboost_forecast.R",
+    file = "01_source/f_prophetboost_forecast.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "prophetboost_forecast"
     ),
     
-    file = "00_scripts/f_prophetboost_forecast.R",
+    file = "01_source/f_prophetboost_forecast.R",
     append = FALSE)
 }
