@@ -15,21 +15,21 @@ read_data <- function(x){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "read_data"
     ),
     
-    file = "00_scripts/f_read_data.R",
+    file = "01_source/f_read_data.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "read_data"
     ),
     
-    file = "00_scripts/f_read_data.R",
+    file = "01_source/f_read_data.R",
     append = FALSE)
 }

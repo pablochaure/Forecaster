@@ -1,10 +1,9 @@
-ses_forecast <-  function(train_data){
+ses_forecast <-  function(train_data, error = "additive"){
   
-  model_fit_1_ses <- exp_smoothing(trend  = "none",
-                                   season = "none") %>%
-    set_engine("ets",
-               beta  = NULL,
-               gamma = NULL) %>%
+  model_fit_1_ses <- exp_smoothing_custom(error  = error,
+                                          trend  = "none",
+                                          season = "none") %>%
+    set_engine("ets") %>%
     fit(Value ~ Date,
         data = train_data)
   
@@ -14,21 +13,21 @@ ses_forecast <-  function(train_data){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "ses_forecast"
     ),
     
-    file = "00_scripts/f_ses_forecast.R",
+    file = "01_source/f_ses_forecast.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "ses_forecast"
     ),
     
-    file = "00_scripts/f_ses_forecast.R",
+    file = "01_source/f_ses_forecast.R",
     append = FALSE)
 }

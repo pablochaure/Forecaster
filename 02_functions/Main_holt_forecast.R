@@ -1,7 +1,9 @@
-holt_forecast <-  function(train_data, trend_function){
+holt_forecast <-  function(train_data, error = "additive", trend = "additive", damping = "auto"){
   
-  model_fit_1_holt <- exp_smoothing(trend  = trend_function,
-                                    season = "none") %>%
+  model_fit_1_holt <- exp_smoothing_custom(error   = error,
+                                           trend   = trend,
+                                           season  = "none",
+                                           damping = damping) %>%
     set_engine("ets") %>%
     fit(Value ~ Date,
         data = train_data)
@@ -11,21 +13,21 @@ holt_forecast <-  function(train_data, trend_function){
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "holt_forecast"
     ),
     
-    file = "00_scripts/f_holt_forecast.R",
+    file = "01_source/f_holt_forecast.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "holt_forecast"
     ),
     
-    file = "00_scripts/f_holt_forecast.R",
+    file = "01_source/f_holt_forecast.R",
     append = FALSE)
 }

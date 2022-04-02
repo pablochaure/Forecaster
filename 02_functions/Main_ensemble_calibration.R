@@ -33,21 +33,21 @@ ensemble_calibration <-  function(input, calibration_tbl, test_data){
 }
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "ensemble_calibration"
     ),
     
-    file = "00_scripts/f_ensemble_calibration.R",
+    file = "01_source/f_ensemble_calibration.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "ensemble_calibration"
     ),
     
-    file = "00_scripts/f_ensemble_calibration.R",
+    file = "01_source/f_ensemble_calibration.R",
     append = FALSE)
 }

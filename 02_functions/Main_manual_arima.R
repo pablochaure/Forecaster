@@ -31,21 +31,21 @@ arima_manual <- function(p = 0, q = 0, d = 0, s = 1, P = 0, D = 0, Q = 0, train_
 
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "arima_manual"
     ),
     
-    file = "00_scripts/f_manual_arima.R",
+    file = "01_source/f_manual_arima.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "arima_manual"
     ),
     
-    file = "00_scripts/f_manual_arima.R",
+    file = "01_source/f_manual_arima.R",
     append = FALSE)
 }

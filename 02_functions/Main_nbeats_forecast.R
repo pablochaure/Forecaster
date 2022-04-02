@@ -19,22 +19,22 @@ nbeats_forecast <-  function(train_data,
 }
 
 # Folder Creation
-if(dir.exists("00_scripts")){
+if(dir.exists("01_source")){
   dump(
     list = c(
       "nbeats_forecast"
     ),
     
-    file = "00_scripts/f_nbeats_forecast.R",
+    file = "01_source/f_nbeats_forecast.R",
     append = FALSE)
 }else{
-  dir_create("00_scripts")
+  dir_create("01_source")
   dump(
     list = c(
       "nbeats_forecast"
     ),
     
-    file = "00_scripts/f_nbeats_forecast.R",
+    file = "01_source/f_nbeats_forecast.R",
     append = FALSE)
 }
 
