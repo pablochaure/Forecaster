@@ -38,37 +38,37 @@ source(file = "01_source/f_deepar_forecast.R")
 source(file = "01_source/f_nbeats_forecast.R")
 source(file = "01_source/f_DL_models.R")
 
-PYTHON_DEPENDENCIES <-  c(
-    "pip",
-    "mxnet~=1.7",
-    "gluonts==0.8.0",
-    "numpy",
-    "pandas==1.0.5",
-    # "pathlib==1.0.1",
-    "ujson==4.0.2",
-    "brotlipy"
-)
-
-python_version <- "3.7.1"
+# PYTHON_DEPENDENCIES <-  c(
+#     "pip",
+#     "mxnet~=1.7",
+#     "gluonts==0.8.0",
+#     "numpy",
+#     "pandas==1.0.5",
+#     # "pathlib==1.0.1",
+#     "ujson==4.0.2",
+#     "brotlipy"
+# )
+# 
+# python_version <- "3.7.1"
 
 # reticulate::install_miniconda()
 
-if (Sys.info()[['user']] == 'shiny'){
-    # When running on shinyapps.io, create a virtualenv 
-    envs<-reticulate::virtualenv_list()
-    if(!'forecaster' %in% envs)
-    {
-        reticulate::virtualenv_create(envname = 'forecaster', 
-                                      python  = 'python3',
-                                      version = python_version)
-
-        reticulate::virtualenv_install(envname  = 'forecaster', 
-                                       packages = PYTHON_DEPENDENCIES,
-                                       ignore_installed = TRUE)
-        reticulate::use_virtualenv(virtualenv = "forecaster",
-                                   required   = TRUE)
-    }
-}
+# if (Sys.info()[['user']] == 'shiny'){
+#     # When running on shinyapps.io, create a virtualenv 
+#     envs<-reticulate::virtualenv_list()
+#     if(!'forecaster' %in% envs)
+#     {
+#         reticulate::virtualenv_create(envname = 'forecaster', 
+#                                       python  = 'python3',
+#                                       version = python_version)
+# 
+#         reticulate::virtualenv_install(envname  = 'forecaster', 
+#                                        packages = PYTHON_DEPENDENCIES,
+#                                        ignore_installed = TRUE)
+#         reticulate::use_virtualenv(virtualenv = "forecaster",
+#                                    required   = TRUE)
+#     }
+# }
 
 # Shiny settings ----
 options(shiny.maxRequestSize=30*1024^2) 
@@ -120,10 +120,12 @@ sidebar <- dashboardSidebar(width = 300,
                  tabName  = "ets",
                  icon     = icon("area-chart"),
                  menuSubItem(text    = "Description",
-                             tabName = "ets_readme"
+                             tabName = "ets_readme",
+                             icon     = icon("readme")
                  ),
                  menuSubItem(text    = "Forecasting model",
-                             tabName = "ets_model"
+                             tabName = "ets_model",
+                             icon     = icon("forward")
                  )
         ),
         
@@ -254,6 +256,8 @@ body <- dashboardBody(
                     -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
                     box-shadow: 0px 10px 20px 2px rgb(0 0 0 / 17%);
                     border-radius: 2px;
+                    padding-left: 30px;
+                    padding-right: 30px;
                 }
                 
                 /*Título tabla summary*/
@@ -571,6 +575,11 @@ body <- dashboardBody(
                     color: #ffffff;
                     background-color: #10776F;
                     border-color: #A5CCC9;
+                }
+                
+                /*Seasonality Plot titles*/
+                h3.seasonality_plot_titles {
+                    padding-left: 31px;
                 }
                 '
             )
@@ -1033,6 +1042,7 @@ body <- dashboardBody(
                                                     fluidRow(
                                                         plotlyOutput(outputId = "arima_test_plot")
                                                     ),
+                                                    br(),
                                                     fluidRow(
                                                         reactableOutput(outputId = "arima_table_accuracy")
                                                     ),
@@ -1084,6 +1094,7 @@ body <- dashboardBody(
                                             fluidRow(
                                                 reactableOutput(outputId = "arima_table_forecast")
                                             ),
+                                            br(),br(),
                                             fluidRow(
                                                 downloadButton(outputId = "arima_download_forecast",
                                                                label    = "Download ARIMA Forecasted Values (.csv)",
@@ -1178,7 +1189,7 @@ body <- dashboardBody(
                                                          shinyWidgets::pickerInput(
                                                              inputId  = "ets_model_selection",
                                                              label    = "Select the models you wish to train:", 
-                                                             choices  = c("Auto", "Simple", "Holt", "Holt-Winters"),
+                                                             choices  = c("Simple", "Holt", "Holt-Winters", "Auto"),
                                                              options  = list('actions-box' = TRUE),
                                                              multiple = TRUE
                                                          ),
@@ -1232,6 +1243,7 @@ body <- dashboardBody(
                                                     fluidRow(
                                                         plotlyOutput(outputId = "ets_test_plot")
                                                     ),
+                                                    br(),
                                                     fluidRow(
                                                         reactableOutput(outputId = "ets_table_accuracy")
                                                     ),
@@ -1283,6 +1295,7 @@ body <- dashboardBody(
                                             fluidRow(
                                                 reactableOutput(outputId = "ets_table_forecast")
                                             ),
+                                            br(),br(),
                                             fluidRow(
                                                 downloadButton(outputId = "ets_download_forecast",
                                                                label    = "Download ETS Forecasted Values (.csv)",
@@ -1516,6 +1529,7 @@ body <- dashboardBody(
                                                      fluidRow(
                                                          plotlyOutput(outputId = "ml_test_plot")
                                                      ),
+                                                     br(),
                                                      fluidRow(
                                                          reactableOutput(outputId = "ml_table_accuracy")
                                                      ),
@@ -1566,6 +1580,7 @@ body <- dashboardBody(
                                              fluidRow(
                                                  reactableOutput(outputId = "ml_table_forecast")
                                              ),
+                                             br(),br(),
                                              fluidRow(
                                                  downloadButton(outputId = "ml_download_forecast",
                                                                 label    = "Download ML Forecasted Values (.csv)",
@@ -1684,6 +1699,7 @@ body <- dashboardBody(
                                                     fluidRow(
                                                         plotlyOutput(outputId = "dl_test_plot")
                                                     ),
+                                                    br(),
                                                     fluidRow(
                                                         reactableOutput(outputId = "dl_table_accuracy")
                                                     ),
@@ -1734,6 +1750,7 @@ body <- dashboardBody(
                                             fluidRow(
                                                 reactableOutput(outputId = "dl_table_forecast")
                                             ),
+                                            br(),br(),
                                             fluidRow(
                                                 downloadButton(outputId = "dl_download_forecast",
                                                                label    = "Download DL Forecasted Values (.csv)",
@@ -3051,7 +3068,7 @@ server <- function(session, input, output) {
         ## Progress bar
         progress <- shiny::Progress$new()
         on.exit(progress$close())
-        progress$set(message = "Exponential Smoothing modelling in progress", value = 0)
+        progress$set(message = "ETS modelling in progress", value = 0)
         
         ##Text dialog
         showModal(
@@ -3121,15 +3138,19 @@ server <- function(session, input, output) {
         #HOLTWINTERS
         if("Holt-Winters" %in% input$ets_model_selection){
             rv$hw_error <- tolower(input$holt_error)
-            rv$hw_trend <- tolower(input$holt_trend)
             rv$hw_season <- tolower(input$holt_season)
+            
+            if(input$holt_trend_checkbox == FALSE){
+                rv$hw_trend <- "none"
+            }else{
+                rv$hw_trend <- tolower(input$holt_trend)
+            }
             
             if(input$holt_damping == FALSE){
                 rv$hw_damping <- "none"
             }else{
                 rv$hw_damping <- "damped"
             }
-            
         }
         
         
