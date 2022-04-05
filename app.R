@@ -649,7 +649,7 @@ body <- dashboardBody(
                                        &nbsp&nbsp&nbsp&nbsp- Forecast table downloader. The user is offered the possibility of downloading a CSV file with the forecasted values for all trained models. The file name is constructed as follows: <br/>"),
                                   tags$p("{forecast horizon periods}_{arima/ml/dl}_forecast_{original file name}.csv", style = "text-align:center; color: rgb(16, 119, 111); font-weight: bold;")
                                 ),
-                                style = "text-align:justify; font-size: 20px"
+                                style = "text-align:justify; font-size: 17px"
                             )
                         )
                     )
@@ -3321,14 +3321,14 @@ server <- function(session, input, output) {
     })
     
     ## Forecast table downloader (ets_download_forecast)----
-    output$ml_download_forecast <- downloadHandler(
+    output$ets_download_forecast <- downloadHandler(
         filename = function() {
-            paste({input$ml_horizon}, "_ml_forecast_", {file_path_sans_ext(input$file_main)}, ".csv", sep = "")
+            paste({input$ets_horizon}, "_ets_forecast_", {file_path_sans_ext(input$file_main)}, ".csv", sep = "")
         },
         
         content = function(file) {
-            req(rv$ml_future_forecast_tbl)
-            data <- rv$ml_future_forecast_tbl %>% 
+            req(rv$ets_future_forecast_tbl)
+            data <- rv$ets_future_forecast_tbl %>% 
                 filter(.key =="prediction") %>% 
                 select(-c(Value, .index))
             
