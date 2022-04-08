@@ -10,6 +10,9 @@ libraries <-
       if (!require("tools")) install.packages("tools"); library(tools)
       # if (!require("reticulate")) install.packages("reticulate"); library(reticulate)
       if (!require("bit64")) install.packages("bit64"); library(bit64)
+      if (!require("remotes")) install.packages("remotes"); library(remotes)
+      if (!require("rlang")) install.packages("rlang"); library(rlang)
+      if (!require("ellipsis")) install.packages("ellipsis"); library(ellipsis)
       
       # Data
       if (!require("readxl")) install.packages("readxl"); library(readxl)
@@ -36,6 +39,9 @@ libraries <-
       if (!require("modeltime.gluonts")) install.packages("modeltime.gluonts"); library(modeltime.gluonts)
       if (!require("modeltime.h2o")) install.packages("modeltime.h2o"); library(modeltime.h2o)
       if (!require("ranger")) install.packages("ranger"); library(ranger)
+      ##Accuracy metrics
+      if (!require("TSrepr")) install.packages("TSrepr"); library(TSrepr)
+      if (!require("yardstick")) install.packages("yardstick"); library(yardstick)
       
       # Plots
       if (!require("reactable")) install.packages("reactable"); library(reactable)
