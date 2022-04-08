@@ -1762,6 +1762,17 @@ body <- dashboardBody(
                                                              outputId = "dl_horizon_recommended"),
                                                          
                                                          br(),
+                                                         
+                                                         shinyWidgets::prettyCheckbox(
+                                                             inputId = "dl_accuracy_checkbox",
+                                                             label   = "Custom performance metrics?", 
+                                                             value   = FALSE,
+                                                             status  = "warning",
+                                                             icon    = icon("check")
+                                                         ),
+                                                         
+                                                         uiOutput(outputId = "dl_accuracy_input"
+                                                         ),
 
                                                          shinydashboardPlus::appButton(
                                                              inputId = "run_dl",
@@ -4149,7 +4160,6 @@ server <- function(session, input, output) {
             icon    = icon("chart-line")
         )
     })
-    
     # output$dl_lookback <- renderUI({
     #     numericInput(
     #         inputId = "dl_lookback",
@@ -4160,14 +4170,12 @@ server <- function(session, input, output) {
     #         step    = 1   
     #     )
     # })
-    
     ## DeepAR inputs ----
     output$dl_deepar_inputs <- renderUI({
         if("Deep AR" %in% input$dl_model_selection){
             return(NULL)
         }
-    }) 
-    
+    })
     ## Nbeats inputs ----
     output$dl_nbeats_inputs <- renderUI({
         if("NBeats Ensemble" %in% input$dl_model_selection){
@@ -4206,14 +4214,24 @@ server <- function(session, input, output) {
             )
         }
     })
-    
     output$dl_nb_text <- renderText({
         paste("<h4><b>NBeats Ensemble parameters:")
+    })
+    output$dl_accuracy_input <- renderUI({
+        if(input$dl_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "dl_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
     })
     
     #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
     #DL models ----
-    
     observeEvent(input$run_dl, {
 
         req(input$dl_horizon)
@@ -4221,12 +4239,12 @@ server <- function(session, input, output) {
         
         print("Deep Learning modelling in progress")
         
-        ##Progress bar ----
+        ##Progress bar
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "Deep Learning modelling in progress", value = 0)
 
-        # Text dialog ----
+        # Text dialog
         showModal(
             modalDialog(
                 title = "Deep Learning modelling  in progress",
@@ -4300,8 +4318,13 @@ server <- function(session, input, output) {
         #4/7 Accuracy ----
         progress$inc(3/6, detail = percent(3/6))
         
+        rv$dl_accuracy_metricset <- if(input$dl_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$dl_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
         rv$dl_accuracy_tbl <- rv$dl_calibration_tbl %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$dl_accuracy_metricset)
         
         #5/7 Test forecast ----
         progress$inc(4/6, detail = percent(4/6))
