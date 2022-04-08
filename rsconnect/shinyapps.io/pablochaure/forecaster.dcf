@@ -5,7 +5,9 @@ account: pablochaure
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5996687
-bundleId: 5759352
+bundleId: 5777589
 url: https://pablochaure.shinyapps.io/Forecaster/
-when: 1648989014.01221
-lastSyncTime: 1648989014.01221
+when: 1649410934.57719
+lastSyncTime: 1649410934.57719
+asMultiple: FALSE
+asStatic: FALSE
