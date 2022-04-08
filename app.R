@@ -7,7 +7,6 @@ libraries()
 # # ENVIRONMENT ARIABLES ----
 # source(file = ".Rprofile")
 
-
 # FUNCTIONS ----
 source(file = "01_source/f_frequency_data.R")
 source(file = "01_source/f_sliderInput2.R")
@@ -973,6 +972,17 @@ body <- dashboardBody(
                                                                       
                                                                       br(),
                                                                       
+                                                                      shinyWidgets::prettyCheckbox(
+                                                                          inputId = "arima_accuracy_checkbox",
+                                                                          label = "Custom performance metrics?", 
+                                                                          value = FALSE,
+                                                                          status = "warning",
+                                                                          icon   = icon("check")
+                                                                      ),
+                                                                      
+                                                                      uiOutput(outputId = "arima_accuracy_input"
+                                                                      ),
+                                                                      
                                                                       shinydashboardPlus::appButton(
                                                                           inputId = "run_auto",
                                                                           label   = "Run Forecast",
@@ -1033,7 +1043,20 @@ body <- dashboardBody(
                                                                       ),
                                                                       
                                                                       textOutput(
-                                                                          outputId = "manual_arima_horizon_recommended"
+                                                                          outputId = "arima_manual_horizon_recommended"
+                                                                      ),
+                                                                      
+                                                                      br(),
+                                                                      
+                                                                      shinyWidgets::prettyCheckbox(
+                                                                          inputId = "arima_manual_accuracy_checkbox",
+                                                                          label = "Custom performance metrics?", 
+                                                                          value = FALSE,
+                                                                          status = "warning",
+                                                                          icon   = icon("check")
+                                                                      ),
+                                                                      
+                                                                      uiOutput(outputId = "arima_manual_accuracy_input"
                                                                       ),
                                                                       
                                                                       appButton(
@@ -2046,7 +2069,7 @@ server <- function(session, input, output) {
     },ignoreNULL = FALSE)
     
     ## Recommended horizon (horizon_recommended) ----
-    output$auto_arima_horizon_recommended <- output$manual_arima_horizon_recommended <- output$ml_horizon_recommended <- output$ets_horizon_recommended <- output$ensemble_horizon_recommended <- output$auto_horizon_recommended <- output$dl_horizon_recommended <- renderText(
+    output$auto_arima_horizon_recommended <- output$arima_manual_horizon_recommended <- output$ml_horizon_recommended <- output$ets_horizon_recommended <- output$ensemble_horizon_recommended <- output$auto_horizon_recommended <- output$dl_horizon_recommended <- renderText(
         paste("We recommend forecasting at least", {rv$horizon_recommended}, "periods for a better performance.")
     )
     
@@ -2393,7 +2416,7 @@ server <- function(session, input, output) {
     
     #____________________________________----
     #4.4.2 arima_model TAB ----
-    
+    ###arima inputs----
     output$arima_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
             inputId = "arima_horizon",
@@ -2403,7 +2426,6 @@ server <- function(session, input, output) {
             icon    = icon("chart-line")
         )
     })
-    
     output$arima_manual_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
             inputId = "arima_manual_horizon",
@@ -2413,33 +2435,30 @@ server <- function(session, input, output) {
             icon    = icon("chart-line")
         )
     })
-    
-    ## TO DO Split slider (train_test)----
-    # output$train_test <- renderUI({
-    #     sliderInput2(
-    #         inputId  = "train_test",
-    #         label    = "Train/Test split",
-    #         value    = 80,
-    #         min      = 0,
-    #         max      = 100,
-    #         step     = 5,
-    #         from_min = 50,
-    #         from_max = 95
-    #     )
-    # })   
-    # 
-    # observeEvent(input$train_test, {
-    #     shinyWidgets::updateProgressBar(session = session,
-    #                                     id = "progress_train_test",
-    #                                     value = input$train_test
-    #     )
-    # })
-    
-    
-    #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
-    ## AUTO ARIMA ----
-    
-    ###arima_boost inputs----
+    output$arima_accuracy_input <- renderUI({
+        if(input$arima_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "arima_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
+    })
+    output$arima_manual_accuracy_input <- renderUI({
+        if(input$arima_manual_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "arima_manual_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
+    })
     output$arima_boost <- renderUI({
         if(input$arima_boost_checkbox == 0){
             return(NULL)
@@ -2491,18 +2510,74 @@ server <- function(session, input, output) {
             )
         }
     })
+    output$sarima <- renderUI({
+        if(input$sarima_checkbox == 0){
+            return(NULL)
+        }
+        
+        else if(input$sarima_checkbox == 1){
+            list(
+                numericInput(inputId = "s",
+                             label   = "Seasonality period (1<M>350)",
+                             min     = 1,
+                             max     = 350,
+                             value   = 1
+                             
+                ),
+                numericInput(inputId = "sar",
+                             label   = "Seasonal AR order (P)",
+                             min     = 0,
+                             max     = 5,
+                             value   = 0
+                ),
+                numericInput(inputId = "si",
+                             label   = "Seasonal differencing degree (D)",
+                             min     = 0,
+                             max     = 5,
+                             value   = 0
+                ),
+                numericInput(inputId = "sma",
+                             label   = "Seasonal MA order (Q)",
+                             min     = 0,
+                             max     = 5,
+                             value   = 0
+                )
+            )
+        }
+    })
+    ## TO DO Split slider (train_test)----
+    # output$train_test <- renderUI({
+    #     sliderInput2(
+    #         inputId  = "train_test",
+    #         label    = "Train/Test split",
+    #         value    = 80,
+    #         min      = 0,
+    #         max      = 100,
+    #         step     = 5,
+    #         from_min = 50,
+    #         from_max = 95
+    #     )
+    # })   
+    # 
+    # observeEvent(input$train_test, {
+    #     shinyWidgets::updateProgressBar(session = session,
+    #                                     id = "progress_train_test",
+    #                                     value = input$train_test
+    #     )
+    # })
     
+    
+    #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
+    ## AUTO ARIMA ----
     observeEvent(input$run_auto, {
         req(vars_data())
         
         print("Auto ARIMA modelling in progress")
         
-        ### Progress bar ----
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "ARIMA modelling in progress", value = 0)
         
-        ### Text dialog ----
         showModal(
             modalDialog(
                 title = "ARIMA modelling  in progress",
@@ -2581,6 +2656,11 @@ server <- function(session, input, output) {
         
         progress$inc(1/6, detail = percent(3/6,accuracy = 0.01))
         ### 4/7 Accuracy----
+        rv$arima_accuracy_metricset <- if(input$arima_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$arima_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
         rv$arima_accuracy_tbl <- rv$arima_calibration_tbl %>%
             mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
                 tbl %>%
@@ -2590,7 +2670,7 @@ server <- function(session, input, output) {
                         .residuals  = .actual - .prediction
                     )
             })) %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$arima_accuracy_metricset)
         
         progress$inc(1/6, detail = percent(4/6,accuracy = 0.01))
         ### 5/7 Test Forecast----
@@ -2631,58 +2711,17 @@ server <- function(session, input, output) {
     }, ignoreNULL = TRUE)
     
     #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .----
-    
     ##MANUAL ARIMA ----
-    ###sarima inputs ----
-    output$sarima <- renderUI({
-        if(input$sarima_checkbox == 0){
-            return(NULL)
-        }
-        
-        else if(input$sarima_checkbox == 1){
-            list(
-                numericInput(inputId = "s",
-                             label   = "Seasonality period (1<M>350)",
-                             min     = 1,
-                             max     = 350,
-                             value   = 1
-
-                ),
-                numericInput(inputId = "sar",
-                             label   = "Seasonal AR order (P)",
-                             min     = 0,
-                             max     = 5,
-                             value   = 0
-                ),
-                numericInput(inputId = "si",
-                             label   = "Seasonal differencing degree (D)",
-                             min     = 0,
-                             max     = 5,
-                             value   = 0
-                ),
-                numericInput(inputId = "sma",
-                             label   = "Seasonal MA order (Q)",
-                             min     = 0,
-                             max     = 5,
-                             value   = 0
-                )
-            )
-        }
-    })
-    
-    
     observeEvent(input$run_manual, {
         
         req(input$arima_horizon)
         
         print("Manual ARIMA modelling in progress")
         
-        ### Progress bar ----
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "ARIMA modelling in progress", value = 0)
         
-        ### Text dialog ----
         showModal(
             modalDialog(
                 title = "ARIMA modelling  in progress",
@@ -2780,6 +2819,12 @@ server <- function(session, input, output) {
         ### 4/7 Accuracy----
         progress$inc(1/7, detail = percent(4/7,accuracy = 0.01))
         
+        rv$arima_manual_accuracy_metricset <- if(input$arima_manual_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$arima_manual_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
+        
         rv$arima_accuracy_tbl <- rv$arima_calibration_tbl %>%
             mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
                 tbl %>%
@@ -2789,7 +2834,7 @@ server <- function(session, input, output) {
                         .residuals  = .actual - .prediction
                     )
             })) %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$arima_manual_accuracy_metricset)
         
         ### 5/7 Test Forecast----
         progress$inc(1/7, detail = percent(5/7,accuracy = 0.01))
