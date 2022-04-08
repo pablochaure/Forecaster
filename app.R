@@ -974,10 +974,10 @@ body <- dashboardBody(
                                                                       
                                                                       shinyWidgets::prettyCheckbox(
                                                                           inputId = "arima_accuracy_checkbox",
-                                                                          label = "Custom performance metrics?", 
-                                                                          value = FALSE,
-                                                                          status = "warning",
-                                                                          icon   = icon("check")
+                                                                          label   = "Custom performance metrics?", 
+                                                                          value   = FALSE,
+                                                                          status  = "warning",
+                                                                          icon    = icon("check")
                                                                       ),
                                                                       
                                                                       uiOutput(outputId = "arima_accuracy_input"
@@ -1050,10 +1050,10 @@ body <- dashboardBody(
                                                                       
                                                                       shinyWidgets::prettyCheckbox(
                                                                           inputId = "arima_manual_accuracy_checkbox",
-                                                                          label = "Custom performance metrics?", 
-                                                                          value = FALSE,
-                                                                          status = "warning",
-                                                                          icon   = icon("check")
+                                                                          label   = "Custom performance metrics?", 
+                                                                          value   = FALSE,
+                                                                          status  = "warning",
+                                                                          icon    = icon("check")
                                                                       ),
                                                                       
                                                                       uiOutput(outputId = "arima_manual_accuracy_input"
@@ -1250,6 +1250,17 @@ body <- dashboardBody(
                                                          ),
                                                          
                                                          br(),
+                                                         
+                                                         shinyWidgets::prettyCheckbox(
+                                                             inputId = "ets_accuracy_checkbox",
+                                                             label   = "Custom performance metrics?", 
+                                                             value   = FALSE,
+                                                             status  = "warning",
+                                                             icon    = icon("check")
+                                                         ),
+                                                         
+                                                         uiOutput(outputId = "ets_accuracy_input"
+                                                         ),
                                                          # uiOutput("train_test"
                                                          # ),
                                                          #
@@ -1452,6 +1463,17 @@ body <- dashboardBody(
                                                                        #     status      = "warning",
                                                                        #     striped     = TRUE
                                                                        # )
+                                                                       shinyWidgets::prettyCheckbox(
+                                                                           inputId = "ml_accuracy_checkbox",
+                                                                           label   = "Custom performance metrics?", 
+                                                                           value   = FALSE,
+                                                                           status  = "warning",
+                                                                           icon    = icon("check")
+                                                                       ),
+                                                                       
+                                                                       uiOutput(outputId = "ml_accuracy_input"
+                                                                       ),
+                                                                       
                                                                        shinydashboardPlus::appButton(
                                                                            inputId = "run_ml",
                                                                            label   = "Run Forecast",
@@ -1490,6 +1512,18 @@ body <- dashboardBody(
                                                                        #     status      = "warning",
                                                                        #     striped     = TRUE
                                                                        # )
+                                                                       
+                                                                       shinyWidgets::prettyCheckbox(
+                                                                           inputId = "ensemble_accuracy_checkbox",
+                                                                           label   = "Custom performance metrics?", 
+                                                                           value   = FALSE,
+                                                                           status  = "warning",
+                                                                           icon    = icon("check")
+                                                                       ),
+                                                                       
+                                                                       uiOutput(outputId = "ensemble_accuracy_input"
+                                                                       ),
+                                                                       
                                                                        shinydashboardPlus::appButton(
                                                                            inputId = "run_ensemble",
                                                                            label   = "Run Forecast",
@@ -1503,13 +1537,13 @@ body <- dashboardBody(
                                                               tabPanel(title = "3. AutoML",
                                                                        br(),
                                                                        
-                                                                       numericInput(inputId = "auto_time",
+                                                                       numericInput(inputId = "automl_time",
                                                                                     label   = "Maximum training runtime (seconds):",
                                                                                     min     = 0,
                                                                                     max     = 600,
                                                                                     value   = 30
                                                                        ),
-                                                                       numericInput(inputId = "auto_model_time",
+                                                                       numericInput(inputId = "automl_model_time",
                                                                                     label   = "Maximum training runtime per model (seconds):",
                                                                                     min     = 0,
                                                                                     max     = 600,
@@ -1517,7 +1551,7 @@ body <- dashboardBody(
                                                                        ),
                                                                        
                                                                        sliderInput(
-                                                                           inputId = "auto_max_models",
+                                                                           inputId = "automl_max_models",
                                                                            label   = "Maximum number of models:",
                                                                            min     = 1,
                                                                            max     = 200,
@@ -1525,26 +1559,38 @@ body <- dashboardBody(
                                                                        ),
                                                                        
                                                                        shinyWidgets::prettyCheckbox(
-                                                                           inputId = "auto_nfolds_checkbox",
-                                                                           label = "K-fold cross-validation", 
-                                                                           value = TRUE,
-                                                                           status = "warning",
-                                                                           icon   = icon("check")
+                                                                           inputId = "automl_nfolds_checkbox",
+                                                                           label   = "K-fold cross-validation", 
+                                                                           value   = TRUE,
+                                                                           status  = "warning",
+                                                                           icon    = icon("check")
                                                                        ),
                                                                        
                                                                        uiOutput(
-                                                                           outputId = "auto_nfolds"
+                                                                           outputId = "automl_nfolds"
                                                                        ),
                                                                        
                                                                        hr(),
                                                                        
-                                                                       uiOutput(outputId = "auto_horizon"
+                                                                       uiOutput(outputId = "automl_horizon"
                                                                        ),
                                                                        
                                                                        textOutput(
-                                                                           outputId = "auto_horizon_recommended"),
+                                                                           outputId = "automl_horizon_recommended"),
                                                                        
                                                                        br(),
+                                                                       
+                                                                       shinyWidgets::prettyCheckbox(
+                                                                           inputId = "automl_accuracy_checkbox",
+                                                                           label   = "Custom performance metrics?", 
+                                                                           value   = FALSE,
+                                                                           status  = "warning",
+                                                                           icon    = icon("check")
+                                                                       ),
+                                                                       
+                                                                       uiOutput(outputId = "automl_accuracy_input"
+                                                                       ),
+                                                                       
                                                                        shinydashboardPlus::appButton(
                                                                            inputId = "run_automl",
                                                                            label   = "Run Forecast",
@@ -2069,7 +2115,7 @@ server <- function(session, input, output) {
     },ignoreNULL = FALSE)
     
     ## Recommended horizon (horizon_recommended) ----
-    output$auto_arima_horizon_recommended <- output$arima_manual_horizon_recommended <- output$ml_horizon_recommended <- output$ets_horizon_recommended <- output$ensemble_horizon_recommended <- output$auto_horizon_recommended <- output$dl_horizon_recommended <- renderText(
+    output$auto_arima_horizon_recommended <- output$arima_manual_horizon_recommended <- output$ml_horizon_recommended <- output$ets_horizon_recommended <- output$ensemble_horizon_recommended <- output$automl_horizon_recommended <- output$dl_horizon_recommended <- renderText(
         paste("We recommend forecasting at least", {rv$horizon_recommended}, "periods for a better performance.")
     )
     
@@ -2967,11 +3013,20 @@ server <- function(session, input, output) {
     )
     
     #____________________________________----
-    
     # 4.5.2 ets_model TAB ----
-    
     ## ets_model inputs ----
-    
+    output$ets_accuracy_input <- renderUI({
+        if(input$ets_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "ets_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
+    })
     output$ets_simple_inputs <- renderUI({
         if("Simple" %in% input$ets_model_selection){
             list(
@@ -2990,11 +3045,9 @@ server <- function(session, input, output) {
             )
         }
     })
-    
     output$ets_simple_text <- renderText({
         paste("<h4><b>Simple model parameters:")
     })
-    
     output$ets_double_inputs <- renderUI({
         if("Holt" %in% input$ets_model_selection){
             list(
@@ -3034,11 +3087,9 @@ server <- function(session, input, output) {
             
         }
     })
-    
     output$ets_double_text <- renderText({
         paste("<h4><b>Holt model parameters:")
     })
-    
     output$ets_holt_inputs <- renderUI({
         if("Holt-Winters" %in% input$ets_model_selection){
             list(
@@ -3075,7 +3126,6 @@ server <- function(session, input, output) {
             )
         }  
     })
-    
     output$holt_trend_inputs <- renderUI({
         if (input$holt_trend_checkbox == 1){
             list(
@@ -3097,11 +3147,9 @@ server <- function(session, input, output) {
             )
         }
     })
-    
     output$ets_holt_text <- renderText({
         paste("<h4><b>Holt-Winters' parameters:")
     })
-    
     output$ets_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
             inputId = "ets_horizon",
@@ -3237,6 +3285,14 @@ server <- function(session, input, output) {
                 ## 4/7 Accuracy----
                 progress$inc(1/7, detail = percent(4/7,accuracy = 0.01))
                 
+                rv$ets_accuracy_metricset <- if(input$ets_accuracy_checkbox == 1){
+                    yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$ets_accuracy_metrics)))
+                }else{
+                    modeltime::default_forecast_accuracy_metric_set()
+                }
+                
+                print(rv$ets_accuracy_metricset)
+                
                 rv$ets_accuracy_tbl <- rv$ets_calibration_tbl %>%
                     mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
                         tbl %>%
@@ -3246,7 +3302,7 @@ server <- function(session, input, output) {
                                 .residuals  = .actual - .prediction
                             )
                     })) %>%
-                    modeltime_accuracy()
+                    modeltime_accuracy(metric_set = rv$ets_accuracy_metricset)
                 
                 ## 5/7 Test Forecast----
                 progress$inc(1/7, detail = percent(5/7,accuracy = 0.01))
@@ -3393,8 +3449,8 @@ server <- function(session, input, output) {
     
     #____________________________________----
     #4.6.2 ml_model TAB ----
-    
-    output$ml_horizon <- output$ensemble_horizon <- output$auto_horizon <- renderUI({
+    ##inputs----
+    output$ml_horizon <- output$ensemble_horizon <- output$automl_horizon <- renderUI({
         shinyWidgets::numericInputIcon(
             inputId = "ml_horizon",
             value   = rv$horizon_recommended,
@@ -3402,6 +3458,42 @@ server <- function(session, input, output) {
             label   = "Enter a Forecast Horizon",
             icon    = icon("chart-line")
         )
+    })
+    output$ml_accuracy_input <- renderUI({
+        if(input$ml_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "ml_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
+    })
+    output$ensemble_accuracy_input <- renderUI({
+        if(input$ensemble_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "ensemble_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
+    })
+    output$automl_accuracy_input <- renderUI({
+        if(input$automl_accuracy_checkbox == 1){
+            shinyWidgets::pickerInput(
+                inputId  = "automl_accuracy_metrics",
+                label    = "Select the metrics to compute:", 
+                choices  = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared", "MPE", "MSE","MAAPE"),
+                selected = c("MAE", "MAPE", "MASE", "SMAPE", "RMSE", "RSquared"),
+                options  = list('actions-box' = TRUE),
+                multiple = TRUE
+            )
+        }
     })
     
     ## .1 ML_models ----
@@ -3413,12 +3505,10 @@ server <- function(session, input, output) {
         
         print("Machine Learning modelling in progress")
         
-        ## Progress bar ----
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "Machine Learning modelling in progress", value = 0)
         
-        #Text dialog ----
         showModal(
             modalDialog(
                 title = "Machine Learning modelling  in progress",
@@ -3429,7 +3519,7 @@ server <- function(session, input, output) {
             )
         )
         
-        #EXTENDING data ----
+        ##EXTENDING data ----
         rv$trans_fun     <- log1p
         rv$trans_fun_inv <- expm1
         
@@ -3494,7 +3584,7 @@ server <- function(session, input, output) {
         spec_table <- ml_models(input    = input$ml_model_selection,
                                 recipe_1 = rv$recipe_spec_1,
                                 recipe_2 = rv$recipe_spec_2)
-        ### SAFE FITTING ----
+        ## SAFE FITTING ----
         message("Fitting Sub-Models")
         
         fitted_wflw_list <- map(spec_table$wflw_spec, .f = function(wflw) {
@@ -3507,7 +3597,7 @@ server <- function(session, input, output) {
         
         print(spec_fit_tbl)
         
-        ##2/7 Modeltime Table----
+        #2/7 Modeltime Table----
         progress$inc(1/7, detail = percent(2/7,accuracy = 0.01))
         
         rv$submodels_tbl <- as_modeltime_table(spec_fit_tbl$wflw_fit)
@@ -3521,6 +3611,11 @@ server <- function(session, input, output) {
         # 4/7 Accuracy----
         progress$inc(1/7, detail = percent(4/7,accuracy = 0.01))
         
+        rv$ml_accuracy_metricset <- if(input$ml_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$ml_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
         rv$submodels_accuracy_tbl <- rv$submodels_calibration_tbl %>%
             mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
                 tbl %>%
@@ -3530,7 +3625,7 @@ server <- function(session, input, output) {
                         .residuals  = .actual - .prediction
                     )
             })) %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$ml_accuracy_metricset)
 
         # 5/7 Test Forecast----
         progress$inc(1/7, detail = percent(5/7,accuracy = 0.01))
@@ -3708,6 +3803,11 @@ server <- function(session, input, output) {
         
         req(rv$ensemble_calib_tbl)
         
+        rv$ensemble_accuracy_metricset <- if(input$ensemble_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$ensemble_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
         rv$ensemble_accuracy_tbl <- rv$ensemble_calib_tbl %>% 
             mutate(.calibration_data = map(.calibration_data, .f = function(tbl) {
                 tbl %>%
@@ -3717,7 +3817,7 @@ server <- function(session, input, output) {
                         .residuals  = .actual - .prediction
                     )
             })) %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$ensemble_accuracy_metricset)
         
         #5/7 Test forecast ----
         progress$inc(1/5, detail = percent(3/5))
@@ -3764,15 +3864,15 @@ server <- function(session, input, output) {
     ##.3 AutoML ----
     # Requires Java versions8-11
     
-    output$auto_nfolds <- renderUI({
-        if(input$auto_nfolds_checkbox == 0){
+    output$automl_nfolds <- renderUI({
+        if(input$automl_nfolds_checkbox == 0){
             return(NULL)
         }
         
-        else if(input$auto_nfolds_checkbox == 1){
+        else if(input$automl_nfolds_checkbox == 1){
             list(
                 sliderInput2(
-                    inputId  = "auto_nfolds",
+                    inputId  = "automl_nfolds",
                     label    = "Number of folds for k-fold cross-validation:",
                     min      = 0,
                     max      = 20,
@@ -3791,12 +3891,12 @@ server <- function(session, input, output) {
         
         print("AutoML modelling in progress")
         
-        ## Progress bar ----
+        ## Progress bar
         progress <- shiny::Progress$new()
         on.exit(progress$close())
         progress$set(message = "AutoML modelling in progress", value = 0)
 
-        #Text dialog ----
+        #Text dialog
         showModal(
             modalDialog(
                 title = "AutoML modelling  in progress",
@@ -3853,10 +3953,10 @@ server <- function(session, input, output) {
         rv$recipe_spec_auto %>% prep() %>% juice()
 
         # Model parameters ----
-        rv$auto_time       <- input$auto_time
-        rv$auto_model_time <- input$auto_model_time
-        rv$auto_max_models <- input$auto_max_models
-        rv$auto_nfolds     <- input$auto_nfolds
+        rv$automl_time       <- input$automl_time
+        rv$automl_model_time <- input$automl_model_time
+        rv$automl_max_models <- input$automl_max_models
+        rv$automl_nfolds     <- input$automl_nfolds
 
         #0/7 Inititalize H2O ----
         progress$inc(1/8, detail = percent(1/8,accuracy = 0.01))
@@ -3873,10 +3973,10 @@ server <- function(session, input, output) {
         model_spec_h2o <- automl_reg(mode = "regression") %>%
             set_engine(
                 engine = "h2o",
-                max_runtime_secs = rv$auto_time,
-                max_runtime_secs_per_model = rv$auto_model_time,
-                max_models = rv$auto_max_models,
-                nfolds = rv$auto_nfolds,
+                max_runtime_secs = rv$automl_time,
+                max_runtime_secs_per_model = rv$automl_model_time,
+                max_models = rv$automl_max_models,
+                nfolds = rv$automl_nfolds,
                 exclude_algos = c("DeepLearning"),
                 verbosity = NULL
             )
@@ -3903,8 +4003,13 @@ server <- function(session, input, output) {
         # 4/7 Accuracy----
         progress$inc(1/8, detail = percent(5/8,accuracy = 0.01))
 
+        rv$automl_accuracy_metricset <- if(input$automl_accuracy_checkbox == 1){
+            yardstick::metric_set(!!!rlang::syms(accuracy_metrics(input = input$automl_accuracy_metrics)))
+        }else{
+            modeltime::default_forecast_accuracy_metric_set()
+        }
         rv$automl_accuracy_tbl <- rv$automl_calibration_tbl %>%
-            modeltime_accuracy()
+            modeltime_accuracy(metric_set = rv$automl_accuracy_metricset)
 
         # 5/7 Test Forecast----
         progress$inc(1/8, detail = percent(6/8,accuracy = 0.01))
