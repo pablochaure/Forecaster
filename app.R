@@ -2959,6 +2959,7 @@ server <- function(session, input, output) {
         req(rv$arima_accuracy_tbl)
         
         rect_data <- rv$arima_accuracy_tbl %>% 
+            select(-.type) %>%
             table_modeltime_accuracy(
                 .searchable    = FALSE,
                 .show_sortable = FALSE
@@ -3394,6 +3395,7 @@ server <- function(session, input, output) {
         req(rv$ets_accuracy_tbl)
         
         rect_data <- rv$ets_accuracy_tbl %>% 
+            select(-.type) %>% 
             table_modeltime_accuracy(
                 .searchable    = FALSE,
                 .show_sortable = FALSE
@@ -4084,6 +4086,7 @@ server <- function(session, input, output) {
         req(rv$ml_accuracy_tbl)
         
         rect_data <- rv$ml_accuracy_tbl %>% 
+            select(-.type) %>%
             table_modeltime_accuracy(
                 .searchable    = FALSE,
                 .show_sortable = FALSE
@@ -4380,7 +4383,8 @@ server <- function(session, input, output) {
         output$dl_table_accuracy <- renderReactable({
             req(rv$dl_accuracy_tbl)
             
-            rect_data <- rv$dl_accuracy_tbl %>% 
+            rect_data <- rv$dl_accuracy_tbl %>%
+                select(-.type) %>%
                 table_modeltime_accuracy(
                     .searchable    = FALSE,
                     .show_sortable = FALSE
