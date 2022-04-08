@@ -1,3 +1,4 @@
+
 exp_smoothing_custom<- function(mode = "regression", seasonal_period = NULL,
                           error = NULL, trend = NULL, season = NULL, damping = NULL,
                           smooth_level = NULL, smooth_trend = NULL, smooth_seasonal = NULL
@@ -612,15 +613,30 @@ theta_predict_impl <- function(object, new_data, ...) {
   return(preds)
 }
 
-
-
-
-
 # Folder Creation
 if(dir.exists("01_source")){
   dump(
     list = c(
-      "exp_smoothing_custom"
+      "exp_smoothing_custom",
+      "print.exp_smoothing",
+      "update.exp_smoothing",
+      "translate.exp_smoothing",
+      "ets_fit_impl",
+      "print.ets_fit_impl",
+      "predict.ets_fit_impl",
+      "ets_predict_impl",
+      "smooth_fit_impl",
+      "print.smooth_fit_impl",
+      "predict.smooth_fit_impl",
+      "smooth_predict_impl",
+      "croston_fit_impl",
+      "print.croston_fit_impl",
+      "predict.croston_fit_impl",
+      "croston_predict_impl",
+      "theta_fit_impl",
+      "print.theta_fit_impl",
+      "predict.theta_fit_impl",
+      "theta_predict_impl"
     ),
     file = "01_source/f_exp_smoothing_custom.R",
     append = FALSE)
@@ -628,7 +644,26 @@ if(dir.exists("01_source")){
   dir_create("01_source")
   dump(
     list = c(
-      "exp_smoothing_custom"
+      "exp_smoothing_custom",
+      "print.exp_smoothing",
+      "update.exp_smoothing",
+      "translate.exp_smoothing",
+      "ets_fit_impl",
+      "print.ets_fit_impl",
+      "predict.ets_fit_impl",
+      "ets_predict_impl",
+      "smooth_fit_impl",
+      "print.smooth_fit_impl",
+      "predict.smooth_fit_impl",
+      "smooth_predict_impl",
+      "croston_fit_impl",
+      "print.croston_fit_impl",
+      "predict.croston_fit_impl",
+      "croston_predict_impl",
+      "theta_fit_impl",
+      "print.theta_fit_impl",
+      "predict.theta_fit_impl",
+      "theta_predict_impl"
     ),
     file = "01_source/f_exp_smoothing_custom.R",
     append = FALSE)

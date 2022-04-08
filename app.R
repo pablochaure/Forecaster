@@ -3396,6 +3396,12 @@ server <- function(session, input, output) {
         
         rect_data <- rv$ets_accuracy_tbl %>% 
             select(-.type) %>% 
+            mutate(Name = ifelse(substr(rv$ets_accuracy_tbl$.model_desc, 9, 9) != "N",
+                                 "Holt-Winters'",
+                                 ifelse(substr(rv$ets_accuracy_tbl$.model_desc, 9, 9) == "N" & substr(rv$ets_accuracy_tbl$.model_desc, 7, 7) == "N",
+                                        "Simple",
+                                        "Holt")))  %>%
+            dplyr::relocate(Name, .after = .model_desc) %>%
             table_modeltime_accuracy(
                 .searchable    = FALSE,
                 .show_sortable = FALSE

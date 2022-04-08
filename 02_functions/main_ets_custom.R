@@ -1276,15 +1276,29 @@ is.ets <- function(x) {
   inherits(x, "ets")
 }
 
-
-
-
-
 # Folder Creation
 if(dir.exists("01_source")){
   dump(
     list = c(
-      "ets_custom"
+      "ets_custom",
+      "as.character.ets",
+      "etsmodel",
+      "etsTargetFunctionInit",
+      "initparam",
+      "check.param",
+      "initstate",
+      "lik",
+      "print.ets",
+      "pegelsresid.C",
+      "admissible",
+      "plot.ets",
+      "summary.ets",
+      "print.summary.ets",
+      "coef.ets",
+      "fitted.ets",
+      "logLik.ets",
+      "nobs.ets",
+      "is.ets"
     ),
     file = "01_source/f_ets_custom.R",
     append = FALSE)
@@ -1292,7 +1306,25 @@ if(dir.exists("01_source")){
   dir_create("01_source")
   dump(
     list = c(
-      "ets_custom"
+      "ets_custom",
+      "as.character.ets",
+      "etsmodel",
+      "etsTargetFunctionInit",
+      "initparam",
+      "check.param",
+      "initstate",
+      "lik",
+      "print.ets",
+      "pegelsresid.C",
+      "admissible",
+      "plot.ets",
+      "summary.ets",
+      "print.summary.ets",
+      "coef.ets",
+      "fitted.ets",
+      "logLik.ets",
+      "nobs.ets",
+      "is.ets"
     ),
     file = "01_source/f_ets_custom.R",
     append = FALSE)
