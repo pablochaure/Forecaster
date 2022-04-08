@@ -4,8 +4,9 @@
 source(file = "01_source/libraries.R")
 libraries()
 
-# ENVIRONMENT ARIABLES ----
-source(file = ".Rprofile")
+# # ENVIRONMENT ARIABLES ----
+# source(file = ".Rprofile")
+
 
 # FUNCTIONS ----
 source(file = "01_source/f_frequency_data.R")
@@ -14,6 +15,15 @@ source(file = "01_source/f_read_data.R")
 source(file = "01_source/f_select_data.R")
 source(file = "01_source/f_count_rangeselector.R")
 source(file = "01_source/f_plot_acf.R")
+#ACCURACY METRICS
+source(file = "01_source/00_accuracy_metrics/f_accuracy_metrics.R")
+source(file = "01_source/00_accuracy_metrics/f_mse.R")
+source(file = "01_source/00_accuracy_metrics/f_mae.R")
+source(file = "01_source/00_accuracy_metrics/f_mape.R")
+source(file = "01_source/00_accuracy_metrics/f_mase.R")
+source(file = "01_source/00_accuracy_metrics/f_smape.R")
+source(file = "01_source/00_accuracy_metrics/f_rmse.R")
+source(file = "01_source/00_accuracy_metrics/f_maape.R")
 #ARIMA
 source(file = "01_source/f_manual_arima.R")
 source(file = "01_source/f_auto_arima.R")
