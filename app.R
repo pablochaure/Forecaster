@@ -859,11 +859,15 @@ body <- dashboardBody(
                                ),
                                
                                tabPanel(title = "Seasonality plot",
-                                        uiOutput(outputId = "ts_seasonality")
+                                        wellPanel(style = "background-color: white;",
+                                                  uiOutput(outputId = "ts_seasonality")
+                                        )
                                ),
                                
                                tabPanel(title = "Anomaly detection",
-                                        plotlyOutput(outputId = "ts_anomaly")
+                                        wellPanel(style = "background-color: white;",
+                                                  uiOutput(outputId = "ts_anomaly")
+                                        )
                                )
                         )
                     )
