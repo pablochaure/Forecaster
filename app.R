@@ -866,7 +866,7 @@ body <- dashboardBody(
                                
                                tabPanel(title = "Anomaly detection",
                                         wellPanel(style = "background-color: white;",
-                                                  uiOutput(outputId = "ts_anomaly")
+                                                  plotlyOutput(outputId = "ts_anomaly")
                                         )
                                )
                         )
