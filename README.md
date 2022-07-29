@@ -2,7 +2,7 @@
 
 The app is available through the following url: https://pablochaure.shinyapps.io/Forecaster/ and is deployed using shinyapps.io service by RStudio.
 
-The content of this repository corresponds to the dissertation of my studies in a [Bachelor's Degree in Business Analytics, Economics and Finance at Universidad Pontifica Comillas - ICADE](https://www.comillas.edu/en/degrees/dual-degree-program-in-business-analytics-and-law-e-3-analytics) in Madrid, Spain. The dissertation document is only in Spanish and it may be accessed [here](https://repositorio.comillas.edu/xmlui/bitstream/handle/11531/57409/TFG%20-%20Chaure%20Cordero%2c%20Pablo.pdf?sequence=3&isAllowed=y).
+The content of this repository corresponds to the dissertation of my studies in a [Bachelor's Degree in Business Analytics, Economics and Finance at Universidad Pontifica Comillas - ICADE](https://www.comillas.edu/en/degrees/dual-degree-program-in-business-analytics-and-law-e-3-analytics) in Madrid, Spain. The dissertation document is available in Spanish and it may be accessed [here](https://repositorio.comillas.edu/xmlui/bitstream/handle/11531/57409/TFG%20-%20Chaure%20Cordero%2c%20Pablo.pdf?sequence=3&isAllowed=y).
 
 **Known issues:**
 
