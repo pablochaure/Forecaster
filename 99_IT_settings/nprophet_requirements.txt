@@ -1,0 +1,6 @@
+neuralprophet==0.2.7
+pillow==8.3.0
+pandas==1.2.5
+numpy
+torch~=1.6
+pytorch-lightning~=1.1
